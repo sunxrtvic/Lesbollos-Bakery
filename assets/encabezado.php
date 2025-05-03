@@ -1,0 +1,28 @@
+            <div id="reservas"><p>PEDIDOS 48H ANTES <i class="fa fa-phone"></i> 965488087 
+                <i class="fa fa-clock"></i>L-V 08:00 - 20:00 | S-D 09:00 - 14:00</p>
+            </div>
+        
+            <div id = "header">
+                <img id="logo"src="./imagenes/logo/LesBollos_logo.png" alt="logo de LesBollos"> 
+                <nav>
+                <ul class="menu">
+                    <li><a href="./principal.php">Inicio</a></li>
+                    <li><a href="./pan.php">Pan Artesanal</a></li>
+                    <li><a href="./tartas.php">Tartas Caseras</a></li>
+                    <li><a href="./bolleria.php">Bollería Casera</a></li>
+                    <li><a href="./eco.php">Productos Ecológicos</a></li>
+                    <li id="ultimo"><a href="./nosotros.php">Nosotros y nuestra granja</a></li>
+                </ul>  
+                <input type="checkbox" id="hamburguesa">
+                <label for="hamburguesa" class="fa fa-bars" id="icono"></label>
+            </div>    
+
+                <div> <ul class="menu-iconos">
+                    <li><i class="fa fa-magnifying-glass"></i><form class="search-form">
+                        <input type="search" id="search" name="search" placeholder="Buscar...">
+                    </form></li>
+                    <li><a href="./user.php"><i class="fa-regular fa-circle-user"></i></a></li>
+                    <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                  </ul>
+                </div>
+            </nav>
