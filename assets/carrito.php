@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>LesBollos Bakery</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-    <link rel="stylesheet" href="./css/styleuser.css">
+    <link rel="stylesheet" href="./css/stylecarrito.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
@@ -105,11 +105,12 @@
               <td>" . number_format($total, 2) . " €</td><td></td></tr>";
             echo "</table>";
 
-            echo "<br>
-        <form method='POST' action=''>
-            <button type='submit' name='vaciar_carrito'>Vaciar carrito</button>
-        </form>
-        <br><a href='pago.php'><button>Pagar</button></a>";
+            echo "<div class='carrito-botones'>
+    <form method='POST' action=''>
+        <button type='submit' name='vaciar_carrito'><i class='fa fa-trash'></i> Vaciar carrito</button>
+    </form>
+    <a href='pago.php'><button><i class='fa fa-credit-card'></i> Pagar</button></a>
+</div>";
         } else {
             echo "<p>El carrito está vacío.</p>";
         }

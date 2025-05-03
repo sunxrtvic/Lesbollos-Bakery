@@ -154,6 +154,11 @@ nav:has(#hamburguesa:checked) .menu {
 
 /* Estilo del main */
 
+main{
+    min-height: 100vh;
+    padding: 2rem 1rem;
+}
+
 section{
     margin-top: 2.1875rem;
     padding-bottom: 1.875rem;
