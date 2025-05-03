@@ -22,7 +22,7 @@
                         <input type="search" id="search" name="search" placeholder="Buscar...">
                     </form></li>
                     <li><a href="./user.php"><i class="fa-regular fa-circle-user"></i></a></li>
-                    <li><a href="#"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                    <li><a href="./carrito.php"><i class="fa-solid fa-cart-shopping"></i></a></li>
                   </ul>
                 </div>
             </nav>

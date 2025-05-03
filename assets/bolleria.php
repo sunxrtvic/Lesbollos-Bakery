@@ -1,75 +1,83 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>LesBollos Bakery</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-        <link rel="stylesheet" href="./css/stylebolleria.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    </head>
 
-        <body>
-            
-            <?php
-                include_once "encabezado.php";
-            ?>
-        
-        <main>
-            <section>
-                <h1 style="font-family: 'Dosis', sans-serif;">Nuestra Bollería</h1>
-                    <hr>
-                    <section id="grid">
-                        <article>
-                            <img src="./imagenes/bolleria/foto1.jpg">
-                            <h2>Bollería 1</h2>
-                            <p class ="subtitulo">MAGNICA KICTAN - LOREMIPSUM</p>
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et consequuntur, blanditiis ullam placeat architecto,
-                                 voluptate quaerat ipsam natus sed voluptatibus, magnam soluta qui facilis animi quibusdam voluptas ducimus eligendi?
-                                  Facilis eos minus sed fugiat! Modi dolor quae ducimus nisi doloremque reiciendis nobis eos aperiam suscipit maxime,
-                                   quis ipsum deserunt reprehenderit.</p>
-                                   <button>Añadir al carrito</button>
-                        </article>
-        
-                        <article>
-                            <img src="./imagenes/bolleria/foto2.jpg">
-                            <h2>Bollería 2</h2>
-                            <p class ="subtitulo">MAGNICA KICTAN - LOREMIPSUM</p>
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et consequuntur, blanditiis ullam placeat architecto,
-                                 voluptate quaerat ipsam natus sed voluptatibus, magnam soluta qui facilis animi quibusdam voluptas ducimus eligendi?
-                                  Facilis eos minus sed fugiat! Modi dolor quae ducimus nisi doloremque reiciendis nobis eos aperiam suscipit maxime,
-                                   quis ipsum deserunt reprehenderit.</p>
-                                   <button>Añadir al carrito</button>
-                        </article>
-                        <article>
-                            <img src="./imagenes/bolleria/foto3.jpg">
-                            <h2>Bollería 3</h2>
-                            <p class ="subtitulo">MAGNICA KICTAN - LOREMIPSUM</p>
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et consequuntur, blanditiis ullam placeat architecto,
-                                 voluptate quaerat ipsam natus sed voluptatibus, magnam soluta qui facilis animi quibusdam voluptas ducimus eligendi?
-                                  Facilis eos minus sed fugiat! Modi dolor quae ducimus nisi doloremque reiciendis nobis eos aperiam suscipit maxime,
-                                   quis ipsum deserunt reprehenderit.</p>
-                                   <button>Añadir al carrito</button>
-                        </article>
-        
-                        <article>
-                            <img src="./imagenes/bolleria/foto4.jpg">
-                            <h2>Bollería 4</h2>
-                            <p class ="subtitulo">MAGNICA KICTAN - LOREMIPSUM</p>
-                            <p >Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et consequuntur, blanditiis ullam placeat architecto,
-                                 voluptate quaerat ipsam natus sed voluptatibus, magnam soluta qui facilis animi quibusdam voluptas ducimus eligendi?
-                                  Facilis eos minus sed fugiat! Modi dolor quae ducimus nisi doloremque reiciendis nobis eos aperiam suscipit maxime,
-                                   quis ipsum deserunt reprehenderit.</p>
-                                   <button>Añadir al carrito</button>
-                        </article>
-                    </section>
+<head>
+    <meta charset="UTF-8">
+    <title>LesBollos Bakery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="./css/styletartas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+    <!-- Incluimos el header -->
+    <?php
+    include_once("encabezado.php");
+    ?>
+
+    <?php
+    session_start();
+
+    // Conectamos con la base de datos
+    $mysqli = new mysqli("localhost", "root", "", "lesbollos");
+    if ($mysqli->connect_error) {
+        die("Error de conexión: " . $mysqli->connect_error);
+    }
+
+    // Obtenemos los productos de la tabla "bolleria"
+    $products = [];
+    $result = $mysqli->query("SELECT id, nombre, precio, stock FROM bolleria");
+    while ($row = $result->fetch_assoc()) {
+        $row['image'] = "./imagenes/bolleria/" . $row['nombre'] . ".jpg";
+        $products[] = $row;
+    }
+
+    // Creamos la variable "totalCantidad" para guardarla en sesión y mostrar luego en carrito.php el total añadido al carrito de cada producto
+    $totalCantidad = array_sum($_SESSION['carrito'] ?? []);
+
+    // Procesamos el manejo añadir un producto al carrito con sesiones
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST['cantidad'])) {
+        $id = "bolleria_" . $_POST['product_id'];
+        $cantidad = (int)$_POST['cantidad'];
+
+        if ($cantidad > 0) {
+            if (!isset($_SESSION['carrito'][$id])) {
+                $_SESSION['carrito'][$id] = 0;
+            }
+            $_SESSION['carrito'][$id] += $cantidad;
+            // Actualizamos la variable "totalCantidad"
+            $totalCantidad = array_sum($_SESSION['carrito']);
+        }
+    }
+    ?>
+
+    <main>
+        <section>
+            <h1>Nuestros Panes</h1>
+            <hr>
+            <section id="grid">
+                <?php foreach ($products as $product): ?>
+                    <article>
+                        <img src="<?= $product['image'] ?>" alt="<?= htmlspecialchars($product['nombre']) ?>">
+                        <h2><?= htmlspecialchars($product['nombre']) ?></h2>
+                        <p class="subtitulo"><?= number_format($product['precio'], 2) ?> €/kg - Stock: <?= $product['stock'] ?>
+                        </p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                        <form method="POST" action="">
+                            <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                            <input type="number" name="cantidad" value="1" min="1" max="<?= $product['stock'] ?>" style="width: 60px;">
+                            <button type="submit">Añadir al carrito</button>
+                        </form>
+                    </article>
+                <?php endforeach; ?>
             </section>
+        </section>
+    </main>
 
-        </main>
+    <?php
+    include_once("footer.php");
+    ?>
 
-        <?php
-            include_once "footer.php";
-        ?>
-        
-    </body>
+</body>
 
 </html>
