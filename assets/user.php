@@ -16,37 +16,40 @@ if ($conn->connect_error) {
 
 $mensaje = "";
 
-// REGISTRO
+// Manejo del registro
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['registro'])) {
+    //Preparamos los datos que vamos a guardar en la base de datos
     $nombre = $_POST['nombre'];
     $apellidos = $_POST['apellidos'];
     $email = $_POST['mail'];
     $passHash = password_hash($_POST['contraseña'], PASSWORD_DEFAULT);
     $edad = $_POST['edad'];
     $telefono = $_POST['telefono'];
-    $acepta = isset($_POST['cookies']) ? 1 : 0;
+    $acepta = isset($_POST['acepta']) ? 1 : 0;
 
-    $check = $conn->prepare("SELECT id FROM users WHERE email = ?");
-    $check->bind_param("s", $email);
-    $check->execute();
-    $check->store_result();
+    // Comprobamos que si el usuario ya existe consultando el email en la base de datos
+    $checkuser = $conn->prepare("SELECT id FROM users WHERE email = ?");
+    $checkuser->bind_param("s", $email);
+    $checkuser->execute();
+    $checkuser->store_result();
 
-    if ($check->num_rows > 0) {
+    if ($checkuser->num_rows > 0) {
         $mensaje = "⚠️ El correo ya está registrado.";
     } else {
         $stmt = $conn->prepare("INSERT INTO users (nombre, apellidos, email, contraseña, edad, telefono, acepta) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssssi", $nombre, $apellidos, $email, $passHash, $edad, $telefono, $acepta);
         if ($stmt->execute()) {
-            $mensaje = "✅ Registro exitoso. Ya puedes iniciar sesión.";
+            //Si el registro se lleva a cabo, sale este mensaje
+            $mensaje = "Registro realizado con éxito, puedes iniciar sesión.";
         } else {
-            $mensaje = "❌ Error al registrar.";
+            $mensaje = "Ha ocurrido un error con su registro, vuelva a introducir los datos.";
         }
         $stmt->close();
     }
-    $check->close();
+    $checkuser->close();
 }
 
-// INICIO DE SESIÓN
+// Manejo del inicio de sesión
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
     $email = $_POST['email'];
     $pass = $_POST['contraseña'];
@@ -54,19 +57,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
     $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
-    $res = $stmt->get_result();
+    $resultado = $stmt->get_result();
 
-    if ($res->num_rows === 1) {
-        $user = $res->fetch_assoc();
+    if ($resultado->num_rows === 1) {
+        $user = $resultado->fetch_assoc();
         if (password_verify($pass, $user['contraseña'])) {
             $_SESSION['usuario'] = $user;
             header("Location: principal.php");
             exit();
         } else {
-            $mensaje = "❌ Contraseña incorrecta.";
+            $mensaje = "Contraseña incorrecta.";
         }
     } else {
-        $mensaje = "❌ Usuario no encontrado.";
+        $mensaje = "Usuario no encontrado.";
     }
     $stmt->close();
 }
@@ -76,6 +79,7 @@ $conn->close();
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>LesBollos Bakery</title>
@@ -95,110 +99,162 @@ $conn->close();
             border-radius: 5px;
             color: #999;
         }
-        #registro { display: none; }
-        .mensaje { color: red; font-weight: bold; margin: 10px 0; }
+
+        #registro {
+            display: none;
+        }
+
+        .mensaje {
+            color: #b55690;
+            font-weight: bold;
+            margin: 10px 0;
+        }
     </style>
 </head>
+
 <body>
 
-<main>
-    <section class="principal">
-        <h1 style="font-family: 'Dosis', sans-serif;">Regístrese o inicie sesión en nuestra web</h1>
-        <hr>
+    <main>
+        <section class="principal">
+            <h1 style="font-family: 'Dosis', sans-serif;">Regístrese o inicie sesión en nuestra web</h1>
+            <hr>
 
-        <?php if (!empty($mensaje)): ?>
-            <div class="mensaje"><?= $mensaje ?></div>
-        <?php endif; ?>
+            <?php if (!empty($mensaje)): ?>
+                <div class="mensaje"><?= $mensaje ?></div>
+            <?php endif; ?>
 
-        <!-- Formulario de inicio de sesión -->
-        <form id="inicio" method="POST" onsubmit="return validarLogin();">
-            <label>E-mail:</label>
-            <input type="email" name="email" id="emailRegistrado" placeholder="example@hotmail.com" required>
-            <label>Contraseña:</label>
-            <input type="password" name="contraseña" id="contraseñaRegistrada" placeholder="Contraseña" required>
-            <input type="submit" name="login" value="Iniciar sesión">
-            <br><br>
-            <a href="#" id="mostrarRegistro">¿No estás registrad@? Regístrate aquí</a>
-        </form>
+            <!-- Formulario de inicio de sesión -->
+            <form id="inicio" method="POST" onsubmit="return validacionInicio();">
+                <label>E-mail:</label>
+                <input type="email" name="email" id="emailRegistrado" placeholder="example@hotmail.com" required>
+                <label>Contraseña:</label>
+                <input type="password" name="contraseña" id="contraseñaRegistrada" placeholder="Contraseña" required>
+                <input type="submit" name="login" value="Iniciar sesión">
+                <br><br>
+                <a href="#" id="mostrarRegistro">¿No estás registrad@? Regístrate aquí</a>
+            </form>
 
-        <!-- Formulario de registro -->
-        <form id="registro" method="POST" onsubmit="return validarRegistro();">
-            <input type="hidden" name="registro" value="1">
-            <label>Nombre:</label>
-            <input type="text" name="nombre" id="nombre" required>
-            <label>Apellidos:</label>
-            <input type="text" name="apellidos" id="apellidos" required>
-            <label>E-mail:</label>
-            <input type="email" name="mail" id="mail" required>
-            <label>Contraseña:</label>
-            <input type="password" name="contraseña" id="contraseña" required placeholder="Mínimo 8 caracteres">
-            <label>Edad:</label>
-            <input type="date" name="edad" id="edad" required>
-            <label>Teléfono:</label>
-            <input type="number" name="telefono" id="telefono" required>
-            <label>¿Cómo conociste nuestra panadería?</label>
-            <select name="consulta" id="consulta" required>
-                <option value="conocidos">De algún conocido</option>
-                <option value="redes" selected>Por redes sociales</option>
-                <option value="publicidad">Por publicidad</option>
-                <option value="otros">Otros</option>
-            </select>
-            <br>
-            <label>Acepta usted la política de privacidad y cookies</label><br>
-            <input type="checkbox" name="cookies" id="cookies" value="1" required> Acepto
-            <br><br>
-            <input type="submit" value="Registrarse">
-            <br><br>
-            <a href="#" id="mostrarLogin">¿Ya estás registrad@? Inicia sesión</a>
-        </form>
-    </section>
-</main>
+            <!-- Formulario de registro -->
+            <form id="registro" method="POST" onsubmit="return validacionRegistro();">
+                <input type="hidden" name="registro" value="1">
+                <label>Nombre:</label>
+                <input type="text" name="nombre" id="nombre" required>
+                <label>Apellidos:</label>
+                <input type="text" name="apellidos" id="apellidos" required>
+                <label>E-mail:</label>
+                <input type="email" name="mail" id="mail" required>
+                <label>Contraseña:</label>
+                <input type="password" name="contraseña" id="contraseña" required placeholder="Mínimo 8 caracteres">
+                <label>Edad:</label>
+                <input type="date" name="edad" id="edad" required>
+                <label>Teléfono:</label>
+                <input type="number" name="telefono" id="telefono" required>
+                <label>¿Cómo conociste nuestra panadería?</label>
+                <select name="consulta" id="consulta" required>
+                    <option value="conocidos">De algún conocido</option>
+                    <option value="redes" selected>Por redes sociales</option>
+                    <option value="publicidad">Por publicidad</option>
+                    <option value="otros">Otros</option>
+                </select>
+                <br>
+                <label>Acepta usted la política de privacidad y cookies</label><br>
+                <input type="checkbox" name="acepta" id="acepta" value="1" required> Acepto
+                <br><br>
+                <input type="submit" value="Registrarse">
+                <br><br>
+                <a href="#" id="mostrarLogin">¿Ya estás registrad@? Inicia sesión</a>
+            </form>
+        </section>
+    </main>
 
-<?php include_once "footer.php"; ?>
+    <?php include_once "footer.php"; ?>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(function () {
-        $("#mostrarRegistro").click(function (e) {
-            e.preventDefault();
-            $("#inicio").hide();
-            $("#registro").show();
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        // Por defecto mostramos el form de inicio de sesión
+        // Si el usuario clicka en el link lo ocultamos y mostramos el form de registro
+        $(function () {
+            $("#mostrarRegistro").click(function (event) {
+                event.preventDefault();
+                $("#inicio").hide();
+                $("#registro").show();
+            });
+
+            $("#mostrarLogin").click(function (event) {
+                event.preventDefault();
+                $("#registro").hide();
+                $("#inicio").show();
+            });
+
+            <?php if (isset($_POST['registro'])): ?>
+                $("#registro").show();
+                $("#inicio").hide();
+            <?php endif; ?>
         });
 
-        $("#mostrarLogin").click(function (e) {
-            e.preventDefault();
-            $("#registro").hide();
-            $("#inicio").show();
-        });
+        function validacionRegistro() {
+            var pass = document.getElementById("contraseña").value;
+            var nombre = document.getElementById("nombre").value;
+            var apellidos = document.getElementById("apellidos").value;
+            var email = document.getElementById("mail").value;
+            var telefono = document.getElementById("telefono").value;
+            var edad = document.getElementById("edad").value;
 
-        <?php if (isset($_POST['registro'])): ?>
-            $("#registro").show();
-            $("#inicio").hide();
-        <?php endif; ?>
-    });
+            // Comprobamos que no haya campos vacíos
+            if (!nombre || !apellidos || !email || !pass || !telefono || !edad) {
+                alert("Por favor, completa todos los campos.");
+                return false;
+            }
 
-    function validarRegistro() {
-        const pass = document.getElementById("contraseña").value;
-        if (pass.length < 8) {
-            alert("La contraseña debe tener al menos 8 caracteres.");
-            return false;
-        }
-        if (!document.getElementById("cookies").checked) {
-            alert("Debe aceptar la política de privacidad.");
-            return false;
-        }
-        return true;
-    }
+            // Validamos de la contraseña (mínimo debe tener 8 caracteres)
+            if (pass.length < 8) {
+                alert("La contraseña debe tener al menos 8 caracteres.");
+                return false;
+            }
 
-    function validarLogin() {
-        const email = document.getElementById("emailRegistrado").value;
-        const pass = document.getElementById("contraseñaRegistrada").value;
-        if (!email || !pass) {
-            alert("Por favor, completa todos los campos.");
-            return false;
+            // Validamos de la longitud del teléfono para que sea de 9 dígitos
+            if (telefono.length !== 9) {
+                alert("El teléfono debe tener exactamente 9 dígitos.");
+                return false;
+            }
+
+            var emailFormato = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailFormato.test(email)) {
+                alert("Por favor, ingresa un e-mail válido.");
+                return false;
+            }
+
+            // Validamos de la fecha de nacimiento para que no sea posterior a la fecha actual
+            var fechaNacimiento = new Date(edad);
+            var fechaActual = new Date();
+            if (fechaNacimiento > fechaActual) {
+                alert("La fecha de nacimiento no puede ser posterior a la fecha actual.");
+                return false;
+            }
+
+            // Comprobamos si el usuario acepta la politica de privacidad 
+            if (!document.getElementById("acepta").checked) {
+                alert("Debes aceptar la política de privacidad.");
+                return false;
+            }
+
+            return true;
         }
-        return true;
-    }
-</script>
+
+        function validacionInicio() {
+            var email = document.getElementById("emailRegistrado").value;
+            var pass = document.getElementById("contraseñaRegistrada").value;
+
+            // Comprobamos que no haya campos vacíos al iniciar sesión
+            if (!email || !pass) {
+                alert("Por favor, debes completar todos los campos.");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </body>
+
 </html>
