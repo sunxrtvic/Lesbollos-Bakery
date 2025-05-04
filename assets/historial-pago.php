@@ -16,7 +16,6 @@
         <?php
         session_start();
 
-        // Conexión a la base de datos
         $mysqli = new mysqli("localhost", "root", "", "lesbollos");
         if ($mysqli->connect_error) {
             die("Error de conexión: " . $mysqli->connect_error);
@@ -26,7 +25,7 @@
         $query = "SELECT id, user_id, total, stripe_id, fecha FROM pagos ORDER BY fecha DESC";
         $result = $mysqli->query($query);
 
-        // Verificar si hay pagos
+        // Verificamos si hay pagos
         if ($result->num_rows > 0) {
             echo "<section>";
             echo "<table border='1' style='width: 100%; text-align: left;'>";
@@ -38,7 +37,7 @@
                 $total = number_format($row['total'], 2);
                 $fecha = $row['fecha'];
 
-                // Obtener la cantidad total de productos en el pedido
+                // Obtenemos la cantidad total de productos en el pedido
                 $query_productos = "SELECT SUM(cantidad) AS cantidad_total FROM detalles_pedido WHERE pedido_id = $id";
                 $result_productos = $mysqli->query($query_productos);
                 $cantidad_total = 0;
@@ -47,10 +46,10 @@
                     $cantidad_total = $row_productos['cantidad_total'];
                 }
 
-                // Obtener los detalles de los productos
-                $query_detalles = "SELECT dp.cantidad, dp.tabla_producto, dp.producto_id 
-                                   FROM detalles_pedido dp 
-                                   WHERE dp.pedido_id = $id";
+                // Consultamos los datos de detalles_pedido
+                $query_detalles = "SELECT detalles_pedido.cantidad, detalles_pedido.tabla_producto, detalles_pedido.producto_id 
+                                   FROM detalles_pedido 
+                                   WHERE detalles_pedido.pedido_id = $id";
                 $result_detalles = $mysqli->query($query_detalles);
 
                 $productos = [];
@@ -59,7 +58,7 @@
                         $tabla_producto = $detalle['tabla_producto'];
                         $producto_id = $detalle['producto_id'];
 
-                        // Hacer una consulta dinámica en la tabla correspondiente para obtener el nombre del producto
+                        // Hacemos una consulta dinámica en la tabla correspondiente para obtener el nombre del producto
                         $query_nombre_producto = "SELECT nombre FROM $tabla_producto WHERE id = $producto_id";
                         $result_nombre = $mysqli->query($query_nombre_producto);
 
@@ -69,14 +68,13 @@
                         }
                     }
                 }
-
+                //Separamos los productos por comas para la vista
                 $productos_lista = implode(", ", $productos);
 
-                // Mostrar fila con los datos de pago
                 echo "<tr>";
                 echo "<td>#" . htmlspecialchars($id) . "</td>";
-                echo "<td>" . htmlspecialchars($productos_lista) . "</td>"; // Mostrar los nombres de los productos
-                echo "<td>" . $cantidad_total . "</td>"; // Mostrar la cantidad total de productos
+                echo "<td>" . htmlspecialchars($productos_lista) . "</td>";
+                echo "<td>" . $cantidad_total . "</td>"; 
                 echo "<td>" . $total . " €</td>";
                 echo "<td>" . htmlspecialchars($fecha) . "</td>";
                 echo "</tr>";

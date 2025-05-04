@@ -2,7 +2,7 @@
 session_start();
 require("vendor/autoload.php");
 
-// Verificar que el usuario haya iniciado sesión
+// Verificamos que el usuario haya iniciado sesión
 if (!isset($_SESSION['usuario'])) {
     die("Debes iniciar sesión para realizar el pago.");
 }
@@ -12,7 +12,7 @@ if ($mysqli->connect_error) {
     die("Error de conexión: " . $mysqli->connect_error);
 }
 
-// Configurar clave secreta de Stripe
+// Configuramos clave secreta de Stripe
 \Stripe\Stripe::setApiKey('sk_test_51Qp6eyDBHYtcSsl5PZyAxzQ5dvvIvGDGKFJ9afB7FFUSR9avS4AaoXzsVOhXK0DdbmZzyGNYrjN8pDLs59Sh9BsI00RfNwilEc');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Error: Carrito vacío o método de pago no válido.");
     }
 
-    // Calcular el total del carrito
+    // Calculamos el total del carrito
     $total = 0;
     $productos_en_carrito = [];
 
@@ -63,23 +63,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'currency' => 'eur',
             'payment_method' => $paymentMethod,
             'confirm' => true,
-            'return_url' => 'http://localhost/lesbollos/perfil.php', // Redirige aquí tras pago
+            'return_url' => 'http://localhost/lesbollos/perfil.php',
             'automatic_payment_methods' => ['enabled' => true],
         ]);
 
-        // Guardar el pago
+        // Guardaamos el pago
         $user_id = $_SESSION['usuario']['id'];
         $stripe_id = $paymentIntent->id;
 
         $stmt = $mysqli->prepare("INSERT INTO pagos (user_id, total, stripe_id) VALUES (?, ?, ?)");
         $stmt->bind_param("ids", $user_id, $total, $stripe_id);
         $stmt->execute();
-        $pedido_id = $stmt->insert_id;  // Obtener el ID del pedido registrado
+        $pedido_id = $stmt->insert_id;  // Obtenenemos el ID del pedido registrado
         $stmt->close();
 
-        // Guardar los detalles del pedido en la tabla detalles_pedido
+        // Guardamos los detalles del pedido en la tabla detalles_pedido
         foreach ($productos_en_carrito as $producto) {
-            $tabla_producto = $producto['tabla']; // 'tartas', 'pan', etc.
+            $tabla_producto = $producto['tabla'];
             $producto_id = $producto['id'];
             $precio_unitario = $producto['precio'];
             $subtotal = $producto['subtotal'];
@@ -90,12 +90,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt_detalles->close();
         }
 
-        unset($_SESSION['carrito']); // Vaciar carrito
+        unset($_SESSION['carrito']); // Vaciamos el carrito una vez realizado el pago
 
-        // Guardar mensaje de éxito en sesión para mostrarlo en index.php
-        $_SESSION['mensaje_pago'] = "¡Pago realizado con éxito! ID de Stripe: $stripe_id. Total: " . number_format($total, 2) . " €";
+        // Guardamos mensaje de éxito en sesión para mostrarlo en index.php
+        $_SESSION['mensaje_pago'] = "¡Pago realizado con éxito! Consulta más abajo tu historial de pago.";
 
-        // Redirigir a principal.php
+        // Redirigir a perfil.php
         header("Location: ../perfil.php");
         exit;
 

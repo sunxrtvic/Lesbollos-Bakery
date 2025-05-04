@@ -273,10 +273,9 @@ footer h3 {
 
 @media(min-width: 1142px){
     
-    /*Estilo del header*/
     .menu {
         flex-direction: row; 
-        position: static; /*Posicionamiento normal */
+        position: static;
         transform: none;
         float: right;
         background-color: white;

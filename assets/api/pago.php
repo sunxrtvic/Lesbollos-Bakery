@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 
 // Verificar si el usuario ha iniciado sesión
@@ -32,7 +32,7 @@ foreach ($_SESSION['carrito'] as $id => $cantidad) {
     // Obtener los detalles del producto
     $result = $mysqli->query("SELECT nombre, precio FROM $tabla WHERE id = $id_producto");
     $producto = $result->fetch_assoc();
-    
+
     if ($producto) {
         $producto['cantidad'] = $cantidad;
         $producto['subtotal'] = $producto['cantidad'] * $producto['precio'];
@@ -44,79 +44,21 @@ foreach ($_SESSION['carrito'] as $id => $cantidad) {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagar con Stripe</title>
+    <link rel="stylesheet" href="../css/stylepago.css">
     <script src="https://js.stripe.com/v3/"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #fffcef;
-            text-align: center;
-            padding-top: 50px;
-        }
-
-        h1 {
-            color: #333;
-        }
-
-        button {
-            background-color: rgb(167, 223, 240);
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin: 10px;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background-color: rgb(137, 193, 210);
-        }
-
-        form {
-            background-color: white;
-            padding: 40px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            border-radius: 20px;
-            width: 400px;
-            margin-bottom: 40px;
-            margin-left: 460px;
-        }
-
-        .productos-carrito {
-            text-align: left;
-            margin-bottom: 20px;
-        }
-
-        .productos-carrito table {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .productos-carrito td {
-            padding: 5px;
-        }
-
-        .productos-carrito th {
-            text-align: left;
-            padding: 10px;
-        }
-
-        .total {
-            font-weight: bold;
-        }
-    </style>
 </head>
+
 <body>
-    <h1>Pago con Stripe</h1>
+    <h1>Resumen de tu pedido</h1>
 
     <!-- Mostrar productos en el carrito -->
     <div class="productos-carrito">
-        <h2>Resumen de tu pedido</h2>
-        <table border="1">
+        <table>
             <tr>
                 <th>Producto</th>
                 <th>Cantidad</th>
@@ -152,8 +94,9 @@ foreach ($_SESSION['carrito'] as $id => $cantidad) {
         <div id="payment-message"></div>
     </form>
 
+
     <script>
-        const stripe = Stripe('pk_test_51Qp6eyDBHYtcSsl5EzLicDH23rglhnkEJhsnDzn0faxOr7c86kbjZ6EWOEvB7BU9iXLz30SZOmcjnE0fm6SMxpWF00xQFDa8N9'); 
+        const stripe = Stripe('pk_test_51Qp6eyDBHYtcSsl5EzLicDH23rglhnkEJhsnDzn0faxOr7c86kbjZ6EWOEvB7BU9iXLz30SZOmcjnE0fm6SMxpWF00xQFDa8N9');
         const elements = stripe.elements();
         const cardElement = elements.create('card');
         cardElement.mount('#card-element');
@@ -178,4 +121,5 @@ foreach ($_SESSION['carrito'] as $id => $cantidad) {
         });
     </script>
 </body>
+
 </html>

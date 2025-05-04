@@ -163,26 +163,25 @@ nav:has(#hamburguesa:checked) .menu {
 main {
     margin: 0;
     padding: 0;
-    min-height: 100vh; /* Ocupa toda la altura del viewport */
+    min-height: 100vh; 
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center; /* Centra el contenido */
+    align-items: center; 
 }
 
-/* Contenedor de perfil más grande */
 .contenedor-perfil {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Empezar desde la parte superior */
+    justify-content: flex-start; 
     align-items: center;
-    padding: 40px; /* Aumento de padding */
-    width: 90%; /* Ancho mayor al 100% para dar margen */
-    max-width: 500px; /* Limitar el ancho máximo */
+    padding: 40px; 
+    width: 90%; 
+    max-width: 500px; 
     background-color: #fff;
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para mejorar el aspecto */
-    margin: 6rem auto 9rem auto; /* Centrado y márgenes en rem */
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    margin: 6rem auto 9rem auto; 
 
 }
 
@@ -193,17 +192,16 @@ main {
 }
 
 img.avatar {
-    width: 150px; /* Aumento el tamaño del avatar */
+    width: 150px;
     height: 150px;
     border-radius: 50%;
     border: 2px solid #ccc;
 }
 
-/* Estilos para el enlace de logout */
 a.logout {
     display: block;
     margin-top: 10px;
-    font-size: 18px; /* Aumento del tamaño de fuente */
+    font-size: 18px;
     color: #b55690;
     text-decoration: none;
     text-align: center;
@@ -213,17 +211,15 @@ a.logout:hover {
     text-decoration: underline;
 }
 
-/* Título más grande */
 h1.contenedor-perfil {
-    font-size: 28px; /* Mayor tamaño de título */
+    font-size: 28px; 
     margin-bottom: 10px;
     color: #333;
     text-align: center;
 }
 
-/* Párrafos con mayor tamaño de texto */
 p.contenedor-perfil {
-    font-size: 18px; /* Aumento de fuente */
+    font-size: 18px;
     text-align: center;
     margin-bottom: 15px;
     color: #666;

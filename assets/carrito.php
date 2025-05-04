@@ -16,18 +16,17 @@
         <?php
         session_start();
 
-        // Conexión
         $mysqli = new mysqli("localhost", "root", "", "lesbollos");
         if ($mysqli->connect_error) {
             die("Error de conexión: " . $mysqli->connect_error);
         }
 
-        // Inicializar carrito
+        // Inicializamos el valor carrito en la sesión
         if (!isset($_SESSION['carrito'])) {
             $_SESSION['carrito'] = [];
         }
 
-        // Obtener productos desde todas las tablas
+        // Obtenemos productos desde todas las tablas
         $productsById = [];
         $tablas = ['tartas', 'pan', 'bolleria', 'eco'];
 
@@ -41,7 +40,6 @@
             }
         }
 
-        // Procesamiento POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['product_id'], $_POST['cantidad'])) {
                 $id = $_POST['product_id'];
@@ -71,7 +69,7 @@
             exit;
         }
 
-        // Mostrar carrito
+        // Mostramos los productos guardados en el carrito
         echo "<section>";
         if (!empty($_SESSION['carrito'])) {
             $total = 0;

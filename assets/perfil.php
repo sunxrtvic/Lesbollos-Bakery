@@ -27,10 +27,10 @@
     $mensaje = "";
     $usuario = $_SESSION['usuario'];
 
-    // Verificar si hay mensaje de pago en la sesión
+    // Verificamos si hay mensaje de pago en la sesión
     if (isset($_SESSION['mensaje_pago'])) {
-        $mensaje = $_SESSION['mensaje_pago'];  // Recuperar el mensaje de la sesión
-        unset($_SESSION['mensaje_pago']);      // Limpiar el mensaje de la sesión para no mostrarlo nuevamente
+        $mensaje = $_SESSION['mensaje_pago'];
+        unset($_SESSION['mensaje_pago']);      
     }
 
     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['actualizar'])) {
