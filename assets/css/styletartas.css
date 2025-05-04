@@ -3,7 +3,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  font-family: "Dosis", sans-serif;
+  font-family: 'Dosis', sans-serif";
 }
 
 button {
@@ -25,6 +25,8 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/*Estilo del header*/
+
 #header {
   display: flex;
   align-items: center;
@@ -38,12 +40,12 @@ button:disabled {
   border-bottom: 1px solid lightgray;
   position: sticky;
   top: 0;
-  flex-wrap: wrap; /* Permite que los elementos se ajusten si no hay espacio suficiente */
+  flex-wrap: wrap;
 }
 
 #logo {
   width: 16.25rem;
-  height: auto; /* Asegura que la altura del logo se ajuste proporcionalmente */
+  height: auto;
   padding: 0 1.5625rem;
 }
 
@@ -119,7 +121,6 @@ nav:has(#hamburguesa:checked) .menu {
   background-color: #d52d00;
 }
 
-/* Estilo para los iconos en el menú */
 .menu-iconos {
   display: flex;
   justify-content: space-between;
@@ -149,7 +150,6 @@ nav:has(#hamburguesa:checked) .menu {
   font-size: 1.5rem;
 }
 
-/* Estilo para la barra de búsqueda */
 .search-form {
   display: flex;
   align-items: center;
@@ -163,7 +163,7 @@ nav:has(#hamburguesa:checked) .menu {
   outline: none;
   height: 1.5625rem;
   font-size: 0.875rem;
-  width: 100%; /* Hace que el input ocupe todo el espacio disponible */
+  width: 100%;
 }
 
 .search-form input[type="search"]::placeholder {
@@ -229,6 +229,15 @@ article img {
 
 input[type="number"] {
   margin-right: 10px;
+}
+
+.mensaje-exito-carrito {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
 }
 
 #paginacion form {
@@ -356,7 +365,7 @@ footer h3 {
   }
 }
 
-/* Desktop: 3 columnas (desde 1142px) */
+/* PC: 3 columnas (desde 1142px) */
 @media (min-width: 1142px) {
   .menu {
     flex-direction: row;

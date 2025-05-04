@@ -1,0 +1,15 @@
+{
+    "name": "assets/api",
+    "description": "pago con stripe",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "victoria"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "stripe/stripe-php": "^17.2"
+    }
+}
