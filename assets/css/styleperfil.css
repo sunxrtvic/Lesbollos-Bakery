@@ -237,6 +237,16 @@ p.contenedor-perfil {
     text-align: center;
 }
 
+.mensaje-exito {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    margin-top: 3.7rem;
+}
+
 /* Estilos de formularios */
 form {
     width: 100%;
@@ -246,14 +256,14 @@ form {
 form label {
     display: block;
     margin-bottom: 10px;
-    font-size: 16px; /* Aumento de tamaño de fuente */
+    font-size: 16px; 
 }
 
 form input {
     width: 100%;
-    padding: 15px; /* Aumento del padding */
+    padding: 15px;
     margin-bottom: 15px;
-    font-size: 16px; /* Mayor tamaño de texto */
+    font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 6px;
 }
@@ -266,6 +276,25 @@ form input[type="submit"] {
 }
 
 form input[type="submit"]:hover {
+    background-color: #953e73;
+}
+
+a.historial {
+    text-align: center;
+    background-color: #b55690;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    font-size: 16px; 
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+a.historial:hover {
     background-color: #953e73;
 }
 
@@ -435,16 +464,18 @@ form input, form select {
 }
 
 form input[type="submit"] {
-    background-color: #b55690;
-    color: white;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-form input[type="submit"]:hover {
-    background-color: #953e73;
+a.historial{
+    display: block;
+    padding: 10px;
+    border: none;
+    transition: background-color 0.3s;
 }
+
 
 a.logout {
     display: inline-block;

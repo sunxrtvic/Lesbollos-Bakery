@@ -109,7 +109,7 @@
     <form method='POST' action=''>
         <button type='submit' name='vaciar_carrito'><i class='fa fa-trash'></i> Vaciar carrito</button>
     </form>
-    <a href='pago.php'><button><i class='fa fa-credit-card'></i> Pagar</button></a>
+    <a href='./api/pago.php'><button><i class='fa fa-credit-card'></i> Pagar</button></a>
 </div>";
         } else {
             echo "<p>El carrito está vacío.</p>";

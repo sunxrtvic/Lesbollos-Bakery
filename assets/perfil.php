@@ -15,7 +15,7 @@
     session_start();
 
     if (!isset($_SESSION['usuario'])) {
-        header("Location: login.php");
+        header("Location: user.php");
         exit();
     }
 
@@ -26,6 +26,12 @@
 
     $mensaje = "";
     $usuario = $_SESSION['usuario'];
+
+    // Verificar si hay mensaje de pago en la sesión
+    if (isset($_SESSION['mensaje_pago'])) {
+        $mensaje = $_SESSION['mensaje_pago'];  // Recuperar el mensaje de la sesión
+        unset($_SESSION['mensaje_pago']);      // Limpiar el mensaje de la sesión para no mostrarlo nuevamente
+    }
 
     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['actualizar'])) {
         $nombre = $_POST['nombre'];
@@ -70,17 +76,18 @@
 
     $conn->close();
     ?>
-
+    <?php if (!empty($mensaje)): ?>
+        <div class="mensaje-exito"><?= $mensaje ?></div>
+    <?php endif; ?>
     <div class="contenedor-perfil">
         <div class="contenedor-avatar">
-            <img src="imagenes/<?= !empty($usuario['avatar']) ? htmlspecialchars($usuario['avatar']) : 'default-avatar.jpg' ?>" alt="Avatar" class="avatar">
+            <img src="imagenes/<?= !empty($usuario['avatar']) ? htmlspecialchars($usuario['avatar']) : 'default-avatar.jpg' ?>"
+                alt="Avatar" class="avatar">
         </div>
         <div class="contenedor-info">
             <h1>Bienvenid@, <?= htmlspecialchars($usuario['nombre']) ?></h1>
 
-            <?php if (!empty($mensaje)): ?>
-                <div class="mensaje"><?= $mensaje ?></div>
-            <?php endif; ?>
+
 
             <form method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="actualizar" value="1">
@@ -104,12 +111,14 @@
                 <input type="date" name="edad" value="<?= htmlspecialchars($usuario['edad']) ?>" required>
 
                 <input type="submit" value="Guardar cambios">
+                <a class="historial" href="historial-pago.php">Ver historial de pagos</a>
             </form>
-
+           
             <a href="cerrar-sesion.php" class="logout">Cerrar sesión</a>
         </div>
     </div>
 
     <?php include_once('footer.php'); ?>
 </body>
+
 </html>
