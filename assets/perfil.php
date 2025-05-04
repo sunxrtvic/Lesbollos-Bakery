@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>LesBollos Bakery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="./css/styleperfil.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+    <?php include_once('encabezado.php'); ?>
+    <?php
+    session_start();
+
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: login.php");
+        exit();
+    }
+
+    $conn = new mysqli("localhost", "root", "", "lesbollos");
+    if ($conn->connect_error) {
+        die("Error de conexión: " . $conn->connect_error);
+    }
+
+    $mensaje = "";
+    $usuario = $_SESSION['usuario'];
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['actualizar'])) {
+        $nombre = $_POST['nombre'];
+        $apellidos = $_POST['apellidos'];
+        $telefono = $_POST['telefono'];
+        $edad = $_POST['edad'];
+        $avatarName = $usuario['avatar'] ?? "";
+
+        if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+            $fileTmp = $_FILES['avatar']['tmp_name'];
+            $fileName = basename($_FILES['avatar']['name']);
+            $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+            $allowedExts = ['jpg', 'jpeg', 'png', 'gif'];
+
+            if (in_array($fileExt, $allowedExts)) {
+                $newFileName = 'avatar_' . $usuario['id'] . '.' . $fileExt;
+                $uploadPath = __DIR__ . '/imagenes/' . $newFileName;
+
+                if (move_uploaded_file($fileTmp, $uploadPath)) {
+                    $avatarName = $newFileName;
+                }
+            }
+        }
+
+        $stmt = $conn->prepare("UPDATE users SET nombre = ?, apellidos = ?, telefono = ?, edad = ?, avatar = ? WHERE id = ?");
+        $stmt->bind_param("sssssi", $nombre, $apellidos, $telefono, $edad, $avatarName, $usuario['id']);
+
+        if ($stmt->execute()) {
+            $mensaje = "Datos actualizados con éxito.";
+            $_SESSION['usuario']['nombre'] = $nombre;
+            $_SESSION['usuario']['apellidos'] = $apellidos;
+            $_SESSION['usuario']['telefono'] = $telefono;
+            $_SESSION['usuario']['edad'] = $edad;
+            $_SESSION['usuario']['avatar'] = $avatarName;
+            $usuario = $_SESSION['usuario'];
+        } else {
+            $mensaje = "Error al actualizar los datos.";
+        }
+
+        $stmt->close();
+    }
+
+    $conn->close();
+    ?>
+
+    <div class="contenedor-perfil">
+        <div class="contenedor-avatar">
+            <img src="imagenes/<?= !empty($usuario['avatar']) ? htmlspecialchars($usuario['avatar']) : 'default-avatar.jpg' ?>" alt="Avatar" class="avatar">
+        </div>
+        <div class="contenedor-info">
+            <h1>Bienvenid@, <?= htmlspecialchars($usuario['nombre']) ?></h1>
+
+            <?php if (!empty($mensaje)): ?>
+                <div class="mensaje"><?= $mensaje ?></div>
+            <?php endif; ?>
+
+            <form method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="actualizar" value="1">
+
+                <label>Foto de perfil:</label>
+                <input type="file" name="avatar" accept="image/*">
+
+                <label>Nombre:</label>
+                <input type="text" name="nombre" value="<?= htmlspecialchars($usuario['nombre']) ?>" required>
+
+                <label>E-mail:</label>
+                <input type="text" name="email" value="<?= htmlspecialchars($usuario['email']) ?>" required>
+
+                <label>Apellidos:</label>
+                <input type="text" name="apellidos" value="<?= htmlspecialchars($usuario['apellidos']) ?>" required>
+
+                <label>Teléfono:</label>
+                <input type="text" name="telefono" value="<?= htmlspecialchars($usuario['telefono']) ?>" required>
+
+                <label>Fecha de nacimiento:</label>
+                <input type="date" name="edad" value="<?= htmlspecialchars($usuario['edad']) ?>" required>
+
+                <input type="submit" value="Guardar cambios">
+            </form>
+
+            <a href="cerrar-sesion.php" class="logout">Cerrar sesión</a>
+        </div>
+    </div>
+
+    <?php include_once('footer.php'); ?>
+</body>
+</html>

@@ -1,10 +1,10 @@
 <?php
 session_start();
-include_once "encabezado.php";
+
 
 // Redirigir si ya ha iniciado sesión
 if (isset($_SESSION['usuario'])) {
-    header("Location: principal.php");
+    header("Location: perfil.php");
     exit();
 }
 
@@ -109,11 +109,19 @@ $conn->close();
             font-weight: bold;
             margin: 10px 0;
         }
+
+        main{
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 
 <body>
-
+<?php include_once ("encabezado.php");?>
     <main>
         <section class="principal">
             <h1 style="font-family: 'Dosis', sans-serif;">Regístrese o inicie sesión en nuestra web</h1>
@@ -167,7 +175,7 @@ $conn->close();
         </section>
     </main>
 
-    <?php include_once "footer.php"; ?>
+    <?php include_once ("footer.php"); ?>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

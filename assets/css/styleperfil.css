@@ -1,9 +1,13 @@
 *{
     box-sizing: border-box;
+    list-style: none;
     margin: 0;
     padding: 0;
-    list-style: none;
     font-family:'Dosis', sans-serif"
+}
+
+html{
+    height: 100%;
 }
 
 button{
@@ -25,6 +29,7 @@ button{
     position: sticky;
     top:0;
 }
+
 #logo{
     width: 16.25rem;
     height: 9.375rem;
@@ -52,6 +57,7 @@ button{
 }
 
 body{
+    height: 100%;
     background-color: #FFFFFF;
 }
 
@@ -154,73 +160,113 @@ nav:has(#hamburguesa:checked) .menu {
 
 /* Estilo del main */
 
-section{
-    margin-top: 2.1875rem;
-    padding-bottom: 1.875rem;
-    text-align: center;
-
+main {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* Ocupa toda la altura del viewport */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Centra el contenido */
 }
 
-section h1{
-    text-align: center;
-    padding: 1.25rem;
-    font-size: 2.25rem;
-}
-
-hr{
-    width: 5rem;
-    border: none;
-    border-top: 4px solid #FF9A56;
-    border-radius: 1.25rem;
-    margin: 0 auto 1.875rem auto; 
-}
-
-section form {
-    width: 31.25rem;
-    padding: 1.25rem;
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+/* Contenedor de perfil más grande */
+.contenedor-perfil {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Empezar desde la parte superior */
     align-items: center;
-    margin: 0 auto;
+    padding: 40px; /* Aumento de padding */
+    width: 90%; /* Ancho mayor al 100% para dar margen */
+    max-width: 500px; /* Limitar el ancho máximo */
+    background-color: #fff;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para mejorar el aspecto */
+    margin: 6rem auto 9rem auto; /* Centrado y márgenes en rem */
+
 }
 
-label {
+/* Avatar centrado */
+.contenedor-avatar {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+img.avatar {
+    width: 150px; /* Aumento el tamaño del avatar */
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+}
+
+/* Estilos para el enlace de logout */
+a.logout {
     display: block;
     margin-top: 10px;
+    font-size: 18px; /* Aumento del tamaño de fuente */
+    color: #b55690;
+    text-decoration: none;
+    text-align: center;
+}
+
+a.logout:hover {
+    text-decoration: underline;
+}
+
+/* Título más grande */
+h1.contenedor-perfil {
+    font-size: 28px; /* Mayor tamaño de título */
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+}
+
+/* Párrafos con mayor tamaño de texto */
+p.contenedor-perfil {
+    font-size: 18px; /* Aumento de fuente */
+    text-align: center;
+    margin-bottom: 15px;
+    color: #666;
+}
+
+/* Mensajes de error o éxito */
+.mensaje {
+    margin-bottom: 15px;
     font-weight: bold;
+    color: #b55690;
+    text-align: center;
 }
 
-input[type="text"],
-input[type="number"],
-input[type="email"],
-select {
+/* Estilos de formularios */
+form {
     width: 100%;
-    padding: 8px;
-    margin: 5px 0 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    padding: 0 10px;
 }
 
-#checkbox{
-    display: inline-block;
-    margin-right: 0.9375rem;
-    margin-left: 0.9375rem;
+form label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px; /* Aumento de tamaño de fuente */
 }
 
-input[type="submit"] {
-    width: 80%;
-    padding: 10px;
-    background-color: #FF9A56;
+form input {
+    width: 100%;
+    padding: 15px; /* Aumento del padding */
+    margin-bottom: 15px;
+    font-size: 16px; /* Mayor tamaño de texto */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+form input[type="submit"] {
+    background-color: #b55690;
     color: white;
-    border: none;
-    border-radius: 5px;
+    font-weight: bold;
     cursor: pointer;
-    margin-top: 1.25rem;
 }
 
-input[type="submit"]:hover {
-    background-color: #D52D00;
+form input[type="submit"]:hover {
+    background-color: #953e73;
 }
 
 /* Estilo del footer */
@@ -312,6 +358,7 @@ footer h3 {
         transform: none;
         float: right;
         background-color: white;
+    
     }
     
     .menu li {
@@ -341,7 +388,74 @@ footer h3 {
     #icono{
         display: none;
     }
+    /*Estilo main*/
+main {
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+}
 
+.contenedor-perfil {
+    display: flex;
+    padding: 40px;
+    max-width: 1000px;
+}
+
+.contenedor-avatar {
+    margin-right: 40px;
+}
+
+.contenedor-info {
+    flex: 1;
+}
+
+img.avatar {
+    width: 150px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+.mensaje {
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #b55690;
+}
+
+form input, form select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+form input[type="submit"] {
+    background-color: #b55690;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form input[type="submit"]:hover {
+    background-color: #953e73;
+}
+
+a.logout {
+    display: inline-block;
+    margin-top: 20px;
+    color: #333;
+    text-decoration: none;
+}
+
+a.logout:hover {
+    text-decoration: underline;
+}
     /*Estilo del footer*/
 
     .footer-contenedor {
@@ -354,6 +468,7 @@ footer h3 {
         flex: 1; 
         padding: 10px;
     }
+
 
     #centro{
         display: unset;
