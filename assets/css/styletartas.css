@@ -26,7 +26,6 @@ button:disabled {
 }
 
 /*Estilo del header*/
-
 #header {
   display: flex;
   align-items: center;
@@ -45,8 +44,11 @@ button:disabled {
 
 #logo {
   width: 16.25rem;
-  height: auto;
-  padding: 0 1.5625rem;
+  height: 9.375rem;
+  padding-left: 1.5625rem;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  float: left;
 }
 
 #reservas {
@@ -334,12 +336,7 @@ footer h3 {
 
 /* Tablet: 2 columnas (desde 768px) */
 @media (min-width: 768px) {
-  #reservas {
-    text-align: left;
-  }
-  #reservas p {
-    margin-left: 5px;
-  }
+
   .menu-iconos {
     display: flex;
     justify-content: flex-end;
@@ -366,6 +363,13 @@ footer h3 {
 
 /* PC: 3 columnas (desde 1142px) */
 @media (min-width: 1142px) {
+  #reservas{  
+    text-align: left;
+    padding-left: 1.25rem;
+    padding: 1rem;
+    font-size: 1.115rem;
+  }
+  
   .menu {
     flex-direction: row;
     position: static;

@@ -73,7 +73,6 @@ if ($mensaje) {
 </head>
 
 <body>
-    <!-- Incluimos el header -->
     <?php include_once("encabezado.php"); ?>
 
 
@@ -86,7 +85,7 @@ if ($mensaje) {
 
     <main>
         <section>
-            <h1>Nuestra Bollería</h1>
+            <h1>Nuestra Productos Ecológicos</h1>
             <hr>
             <section id="grid">
                 <?php foreach ($products as $product): ?>

@@ -1,448 +1,452 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    font-family: 'Dosis', sans-serif";
-  }
-  
-  button {
-    background-color: #ff9a56;
-    padding: 10px;
-    border: none;
-    margin: 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  button:hover {
-    background-color: #ff7f42;
-  }
-  
-  button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  /*Estilo del header*/
-  #header {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: 'Dosis', sans-serif";
+}
+
+button {
+  background-color: #ff9a56;
+  padding: 10px;
+  border: none;
+  margin: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #ff7f42;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/*Estilo del header*/
+#header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  background-repeat: no-repeat;
+  padding: 0 1.5625rem;
+  padding-left: 0;
+  height: 9.375rem;
+  width: 100%;
+  border-bottom: 1px solid lightgray;
+  position: sticky;
+  top: 0;
+  flex-wrap: wrap;
+}
+
+#logo {
+  width: 16.25rem;
+  height: 9.375rem;
+  padding-left: 1.5625rem;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  float: left;
+}
+
+#reservas {
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  background-color: #b55690;
+  color: white;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 0.5rem;
+}
+
+#reservas .fa {
+  padding-left: 6px;
+  padding-right: 7px;
+}
+
+body {
+  background-color: #ffffff;
+}
+
+#icono {
+  padding: 1rem;
+  font-size: 1.3rem;
+  padding-left: 0;
+  cursor: pointer;
+}
+
+#hamburguesa {
+  display: none;
+}
+
+nav:has(#hamburguesa:checked) .menu {
+  transform: translateX(0);
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: absolute;
+  background-color: #b55691;
+  top: 9.5rem;
+  left: 0;
+  transform: translateX(-135%);
+  transition: transform 0.4s;
+}
+
+.menu li {
+  padding: 15px;
+  text-align: center;
+}
+
+.menu li:not(#ultimo) {
+  border-bottom: 1px solid white;
+}
+
+.menu li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 0.9375rem 1.25rem;
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.menu li:hover {
+  background-color: #d52d00;
+}
+
+.menu-iconos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 0.9375rem;
+}
+
+.menu-iconos li {
+  margin: 0 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.menu-iconos li i {
+  color: black;
+  font-size: 1.25rem;
+}
+
+.menu-iconos li a {
+  margin: 10px;
+  color: #d52d00;
+}
+
+.menu-iconos li a i {
+  color: black;
+  font-size: 1.5rem;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.search-form input[type="search"] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 1.25rem;
+  outline: none;
+  height: 1.5625rem;
+  font-size: 0.875rem;
+  width: 100%;
+}
+
+.search-form input[type="search"]::placeholder {
+  color: #999;
+}
+
+/* Estilo del main */
+section {
+  margin-top: 6.25rem;
+  padding-bottom: 1.25rem;
+  text-align: center;
+}
+
+section h1 {
+  text-align: center;
+  padding: 1.25rem;
+  font-size: 2.25rem;
+}
+
+hr {
+  width: 5rem;
+  border: none;
+  padding: auto;
+  border-top: 4px solid #ff9a56;
+  border-radius: 1.25rem;
+  margin: 0 auto 1.875rem auto;
+}
+
+#grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+article {
+  width: 80%;
+  font-family: Dosis;
+  border: 1px solid lightgray;
+  margin: auto;
+  margin-bottom: 1.5rem;
+  padding-bottom: 10px;
+  border-radius: 10px;
+}
+
+article h2 {
+  padding: 1rem;
+}
+
+article .subtitulo {
+  margin: 1rem;
+}
+
+article p {
+  margin: 10px;
+  padding: 1rem;
+}
+
+article img {
+  width: 70%;
+}
+
+input[type="number"] {
+  margin-right: 10px;
+}
+
+.mensaje-exito-carrito {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+#paginacion form {
+  display: inline;
+}
+
+#paginacion span {
+  font-family: "Dosis", sans-serif;
+  font-size: 16px;
+  padding: 8px;
+}
+
+/* Estilo del footer */
+footer {
+  background-color: #b55690;
+  color: white;
+  padding: 1.25rem;
+  font-family: "Dosis", sans-serif;
+}
+
+#izquierda {
+  line-height: 0.2;
+}
+
+.footer-contenedor {
+  text-align: center;
+}
+
+#izquierda,
+#centro,
+#derecha {
+  padding: 1rem;
+}
+
+#izquierda p,
+#centro p,
+#derecha p {
+  padding-bottom: 1rem;
+}
+
+#izquierda img {
+  margin-bottom: 1rem;
+}
+
+footer h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.imagen {
+  width: 12.5rem;
+  height: 9.375rem;
+  margin-bottom: 5px;
+  margin-top: 8px;
+}
+
+#centro {
+  display: none;
+}
+
+#derecha .circulo {
+  width: 12.5rem;
+  height: 12.5rem;
+  background-color: #ddd;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+#derecha .horario {
+  align-items: left;
+  line-height: 0.3;
+}
+
+#bajo {
+  display: block;
+  justify-content: left;
+  align-items: center;
+  margin-top: 1.25rem;
+  padding-top: 10px;
+  padding-bottom: 0;
+  width: 100%;
+  border-top: 1px solid #ffffff;
+  text-align: left;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+}
+
+.content i {
+  color: white;
+  padding-right: 7px;
+}
+
+/* Tablet: 2 columnas (desde 768px) */
+@media (min-width: 768px) {
+
+  .menu-iconos {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
-    justify-content: space-between;
-    background-color: #ffffff;
-    background-repeat: no-repeat;
-    padding: 0 1.5625rem;
-    padding-left: 0;
-    height: 9.375rem;
-    width: 100%;
-    border-bottom: 1px solid lightgray;
-    position: sticky;
-    top: 0;
-    flex-wrap: wrap;
   }
-  
-  #logo {
-    width: 16.25rem;
+
+  .search-form {
+    margin-left: 1rem;
+  }
+  #grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 1rem;
+  }
+
+  article {
+    width: 100%;
+  }
+
+  article img {
+    width: 100%;
     height: auto;
-    padding: 0 1.5625rem;
   }
-  
-  #reservas {
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
-    padding: 0.5rem 0;
-    font-size: 1rem;
-    background-color: #b55690;
-    color: white;
-    border-bottom: 1px solid lightgray;
-    margin-bottom: 0.5rem;
-  }
-  
-  #reservas .fa {
-    padding-left: 6px;
-    padding-right: 7px;
-  }
-  
-  body {
-    background-color: #ffffff;
-  }
-  
-  #icono {
+}
+
+/* PC: 3 columnas (desde 1142px) */
+@media (min-width: 1142px) {
+  #reservas{  
+    text-align: left;
+    padding-left: 1.25rem;
     padding: 1rem;
-    font-size: 1.3rem;
-    padding-left: 0;
-    cursor: pointer;
-  }
-  
-  #hamburguesa {
-    display: none;
-  }
-  
-  nav:has(#hamburguesa:checked) .menu {
-    transform: translateX(0);
+    font-size: 1.115rem;
   }
   
   .menu {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    position: absolute;
-    background-color: #b55691;
-    top: 9.5rem;
-    left: 0;
-    transform: translateX(-135%);
-    transition: transform 0.4s;
-  }
-  
-  .menu li {
-    padding: 15px;
-    text-align: center;
-  }
-  
-  .menu li:not(#ultimo) {
-    border-bottom: 1px solid white;
-  }
-  
-  .menu li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 0.9375rem 1.25rem;
-    text-decoration: none;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  
-  .menu li:hover {
-    background-color: #d52d00;
-  }
-  
-  .menu-iconos {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-top: 0.9375rem;
-  }
-  
-  .menu-iconos li {
-    margin: 0 1rem;
-    display: flex;
-    align-items: center;
-  }
-  
-  .menu-iconos li i {
-    color: black;
-    font-size: 1.25rem;
-  }
-  
-  .menu-iconos li a {
-    margin: 10px;
-    color: #d52d00;
-  }
-  
-  .menu-iconos li a i {
-    color: black;
-    font-size: 1.5rem;
-  }
-  
-  .search-form {
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
-  }
-  
-  .search-form input[type="search"] {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 1.25rem;
-    outline: none;
-    height: 1.5625rem;
-    font-size: 0.875rem;
-    width: 100%;
-  }
-  
-  .search-form input[type="search"]::placeholder {
-    color: #999;
-  }
-  
-  /* Estilo del main */
-  section {
-    margin-top: 6.25rem;
-    padding-bottom: 1.25rem;
-    text-align: center;
-  }
-  
-  section h1 {
-    text-align: center;
-    padding: 1.25rem;
-    font-size: 2.25rem;
-  }
-  
-  hr {
-    width: 5rem;
-    border: none;
-    padding: auto;
-    border-top: 4px solid #ff9a56;
-    border-radius: 1.25rem;
-    margin: 0 auto 1.875rem auto;
-  }
-  
-  #grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-    padding: 0 1rem;
-    text-align: center;
-  }
-  
-  article {
-    width: 80%;
-    font-family: Dosis;
-    border: 1px solid lightgray;
-    margin: auto;
-    margin-bottom: 1.5rem;
-    padding-bottom: 10px;
-    border-radius: 10px;
-  }
-  
-  article h2 {
-    padding: 1rem;
-  }
-  
-  article .subtitulo {
-    margin: 1rem;
-  }
-  
-  article p {
-    margin: 10px;
-    padding: 1rem;
-  }
-  
-  article img {
-    width: 70%;
-  }
-  
-  input[type="number"] {
-    margin-right: 10px;
+    flex-direction: row;
+    position: static;
+    transform: none;
+    float: right;
+    background-color: white;
   }
 
-  .mensaje-exito-carrito {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: bold;
-}
-  
-  #paginacion form {
-    display: inline;
+  .menu li {
+    float: left;
   }
-  
-  #paginacion span {
-    font-family: "Dosis", sans-serif;
-    font-size: 16px;
-    padding: 8px;
+
+  .menu li a {
+    color: black;
   }
-  
-  /* Estilo del footer */
-  footer {
-    background-color: #b55690;
-    color: white;
-    padding: 1.25rem;
-    font-family: "Dosis", sans-serif;
+
+  .menu li:not(#ultimo) {
+    border-bottom: none;
   }
-  
-  #izquierda {
-    line-height: 0.2;
+
+  .menu li:hover {
+    background-color: transparent;
   }
-  
+
+  .menu li a:hover {
+    color: #d52d00;
+  }
+
+  #hamburguesa,
+  #icono {
+    display: none;
+  }
+
+  #grid {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0 2rem;
+  }
+
   .footer-contenedor {
-    text-align: center;
+    display: flex;
+    align-items: stretch;
+    text-align: left;
   }
-  
+
   #izquierda,
   #centro,
   #derecha {
-    padding: 1rem;
+    flex: 1;
+    padding: 10px;
   }
-  
-  #izquierda p,
-  #centro p,
-  #derecha p {
-    padding-bottom: 1rem;
-  }
-  
-  #izquierda img {
-    margin-bottom: 1rem;
-  }
-  
-  footer h3 {
-    margin-top: 0;
-    margin-bottom: 1rem;
-  }
-  
-  .imagen {
-    width: 12.5rem;
-    height: 9.375rem;
-    margin-bottom: 5px;
-    margin-top: 8px;
-  }
-  
+
   #centro {
-    display: none;
+    display: unset;
   }
-  
-  #derecha .circulo {
-    width: 12.5rem;
-    height: 12.5rem;
-    background-color: #ddd;
-    border-radius: 50%;
-    margin-bottom: 10px;
+
+  #centro ul {
+    padding: 10px;
+    margin-top: 0.9375rem;
+    line-height: 2;
   }
-  
-  #derecha .horario {
-    align-items: left;
-    line-height: 0.3;
+
+  #centro ul li {
+    margin-bottom: 5px;
   }
-  
-  #bajo {
-    display: block;
-    justify-content: left;
-    align-items: center;
-    margin-top: 1.25rem;
-    padding-top: 10px;
-    padding-bottom: 0;
-    width: 100%;
-    border-top: 1px solid #ffffff;
-    text-align: left;
-  }
-  
-  .content {
-    display: flex;
-    align-items: center;
-  }
-  
-  .content i {
+
+  #centro ul li a {
     color: white;
-    padding-right: 7px;
+    text-decoration: none;
   }
-  
-  /* Tablet: 2 columnas (desde 768px) */
-  @media (min-width: 768px) {
-    #reservas {
-      text-align: left;
-    }
-    #reservas p {
-      margin-left: 5px;
-    }
-    .menu-iconos {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    }
-  
-    .search-form {
-      margin-left: 1rem;
-    }
-    #grid {
-      grid-template-columns: repeat(2, 1fr);
-      padding: 0 1rem;
-    }
-  
-    article {
-      width: 100%;
-    }
-  
-    article img {
-      width: 100%;
-      height: auto;
-    }
+
+  #centro ul li a:hover {
+    color: #d52d00;
   }
-  
-  /* PC: 3 columnas (desde 1142px) */
-  @media (min-width: 1142px) {
-    .menu {
-      flex-direction: row;
-      position: static;
-      transform: none;
-      float: right;
-      background-color: white;
-    }
-  
-    .menu li {
-      float: left;
-    }
-  
-    .menu li a {
-      color: black;
-    }
-  
-    .menu li:not(#ultimo) {
-      border-bottom: none;
-    }
-  
-    .menu li:hover {
-      background-color: transparent;
-    }
-  
-    .menu li a:hover {
-      color: #d52d00;
-    }
-  
-    #hamburguesa,
-    #icono {
-      display: none;
-    }
-  
-    #grid {
-      grid-template-columns: repeat(3, 1fr);
-      padding: 0 2rem;
-    }
-  
-    .footer-contenedor {
-      display: flex;
-      align-items: stretch;
-      text-align: left;
-    }
-  
-    #izquierda,
-    #centro,
-    #derecha {
-      flex: 1;
-      padding: 10px;
-    }
-  
-    #centro {
-      display: unset;
-    }
-  
-    #centro ul {
-      padding: 10px;
-      margin-top: 0.9375rem;
-      line-height: 2;
-    }
-  
-    #centro ul li {
-      margin-bottom: 5px;
-    }
-  
-    #centro ul li a {
-      color: white;
-      text-decoration: none;
-    }
-  
-    #centro ul li a:hover {
-      color: #d52d00;
-    }
-  
-    #derecha {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+
+  #derecha {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  
+}

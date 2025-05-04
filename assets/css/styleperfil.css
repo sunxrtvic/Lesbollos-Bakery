@@ -17,65 +17,67 @@ button{
 /* Estilo del header */
 
 #header {
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between; 
-    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
     background-repeat: no-repeat;
-    padding: 0 1.5625rem; 
+    padding: 0 1.5625rem;
+    padding-left: 0;
     height: 9.375rem;
     width: 100%;
     border-bottom: 1px solid lightgray;
     position: sticky;
-    top:0;
-}
-
-#logo{
+    top: 0;
+    flex-wrap: wrap;
+  }
+  
+  #logo {
     width: 16.25rem;
     height: 9.375rem;
     padding-left: 1.5625rem;
     padding-bottom: 2px;
     padding-top: 2px;
     float: left;
-}
-
-#reservas{
-    float : left;
-    font-weight: bold;
-    padding-left: 1.25rem;
+  }
+  
+  #reservas {
     width: 100%;
-    padding: 1rem;
-    font-size: 1.115rem;
+    text-align: center;
+    font-weight: bold;
+    padding: 0.5rem 0;
+    font-size: 1rem;
     background-color: #b55690;
     color: white;
     border-bottom: 1px solid lightgray;
-}
-
-#reservas .fa{
+    margin-bottom: 0.5rem;
+  }
+  
+  #reservas .fa {
     padding-left: 6px;
     padding-right: 7px;
-}
-
-body{
-    height: 100%;
-    background-color: #FFFFFF;
-}
-
-#icono {
+  }
+  
+  body {
+    background-color: #ffffff;
+  }
+  
+  #icono {
     padding: 1rem;
-    font-size: 2rem;
+    font-size: 1.3rem;
+    padding-left: 0;
     cursor: pointer;
-}
-
-#hamburguesa {
+  }
+  
+  #hamburguesa {
     display: none;
-}
-
-nav:has(#hamburguesa:checked) .menu {
+  }
+  
+  nav:has(#hamburguesa:checked) .menu {
     transform: translateX(0);
-}
-
-.menu {
+  }
+  
+  .menu {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -85,78 +87,79 @@ nav:has(#hamburguesa:checked) .menu {
     left: 0;
     transform: translateX(-135%);
     transition: transform 0.4s;
-}
-
-.menu li {
+  }
+  
+  .menu li {
     padding: 15px;
     text-align: center;
-}
-
-.menu li:not(#ultimo){
+  }
+  
+  .menu li:not(#ultimo) {
     border-bottom: 1px solid white;
-}
-
-.menu li a {
-    display: block; 
-    color: white; 
+  }
+  
+  .menu li a {
+    display: block;
+    color: white;
     text-align: center;
     padding: 0.9375rem 1.25rem;
-    text-decoration: none; 
+    text-decoration: none;
     font-weight: bold;
     text-transform: uppercase;
-}
-
-.menu li:hover {
-    background-color: #D52D00; 
-}
-
-.menu-iconos {
+  }
+  
+  .menu li:hover {
+    background-color: #d52d00;
+  }
+  
+  .menu-iconos {
     display: flex;
-    float: right;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
     margin-top: 0.9375rem;
-    margin-left: 1.25rem;
-    
   }
   
   .menu-iconos li {
-    margin-right: 3.125rem;
+    margin: 0 1rem;
     display: flex;
     align-items: center;
   }
-
-  .menu-iconos li i{
+  
+  .menu-iconos li i {
     color: black;
     font-size: 1.25rem;
   }
   
   .menu-iconos li a {
     margin: 10px;
-    color: #D52D00;
+    color: #d52d00;
   }
-
-  .menu-iconos li a i{
+  
+  .menu-iconos li a i {
     color: black;
     font-size: 1.5rem;
   }
-
+  
   .search-form {
     display: flex;
     align-items: center;
-    margin-left: 10px; 
-}
-
-.search-form input[type="search"] {
+    margin-left: 10px;
+  }
+  
+  .search-form input[type="search"] {
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 1.25rem;
     outline: none;
     height: 1.5625rem;
     font-size: 0.875rem;
-}
-
-.search-form input[type="search"]::placeholder {
+    width: 100%;
+  }
+  
+  .search-form input[type="search"]::placeholder {
     color: #999;
-}
+  }
 
 /* Estilo del main */
 
@@ -182,10 +185,8 @@ main {
     border-radius: 10px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     margin: 6rem auto 9rem auto; 
-
 }
 
-/* Avatar centrado */
 .contenedor-avatar {
     text-align: center;
     margin-bottom: 20px;
@@ -225,7 +226,6 @@ p.contenedor-perfil {
     color: #666;
 }
 
-/* Mensajes de error o éxito */
 .mensaje {
     margin-bottom: 15px;
     font-weight: bold;
@@ -243,7 +243,6 @@ p.contenedor-perfil {
     margin-top: 3.7rem;
 }
 
-/* Estilos de formularios */
 form {
     width: 100%;
     padding: 0 10px;
@@ -264,35 +263,26 @@ form input {
     border-radius: 6px;
 }
 
-form input[type="submit"] {
-    background-color: #b55690;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-form input[type="submit"]:hover {
-    background-color: #953e73;
-}
-
-a.historial {
-    text-align: center;
-    background-color: #b55690;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+.boton-rosa {
+    display: block;
     width: 100%;
     padding: 15px;
     margin-bottom: 15px;
-    font-size: 16px; 
-    border: 1px solid #ccc;
+    font-size: 16px;
+    border: none;
     border-radius: 6px;
+    background-color: #b55690;
+    color: white;
+    font-weight: bold;
+    text-align: center;
     text-decoration: none;
+    cursor: pointer;
 }
 
-a.historial:hover {
+.boton-rosa:hover {
     background-color: #953e73;
 }
+
 
 /* Estilo del footer */
 
@@ -374,9 +364,27 @@ footer h3 {
     padding-right: 7px;
 }
 
+@media (min-width: 768px) {
+
+    .menu-iconos {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  
+    .search-form {
+      margin-left: 1rem;
+    }
+}
+
 @media(min-width: 1142px){
-    
-    /*Estilo del header*/
+    #reservas{  
+        text-align: left;
+        padding-left: 1.25rem;
+        padding: 1rem;
+        font-size: 1.115rem;
+      }
+      
     .menu {
         flex-direction: row; 
         position: static; /*Posicionamiento normal */

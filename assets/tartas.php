@@ -86,14 +86,14 @@ if ($mensaje) {
 
     <main>
         <section>
-            <h1>Nuestra Bollería</h1>
+            <h1>Nuestras Tartas</h1>
             <hr>
             <section id="grid">
                 <?php foreach ($products as $product): ?>
                     <article>
                         <img src="<?= $product['image'] ?>" alt="<?= htmlspecialchars($product['nombre']) ?>">
                         <h2><?= htmlspecialchars($product['nombre']) ?></h2>
-                        <p class="subtitulo"><?= number_format($product['precio'], 2) ?> €/kg - Stock: <?= $product['stock'] ?></p>
+                        <p class="subtitulo"><?= number_format($product['precio'], 2) ?> € - Stock: <?= $product['stock'] ?></p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                         <form method="POST" action="">
                             <input type="hidden" name="product_id" value="<?= $product['id'] ?>">

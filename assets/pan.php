@@ -86,7 +86,7 @@ if ($mensaje) {
 
     <main>
         <section>
-            <h1>Nuestra Bollería</h1>
+            <h1>Nuestro Pan</h1>
             <hr>
             <section id="grid">
                 <?php foreach ($products as $product): ?>

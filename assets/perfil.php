@@ -110,8 +110,8 @@
                 <label>Fecha de nacimiento:</label>
                 <input type="date" name="edad" value="<?= htmlspecialchars($usuario['edad']) ?>" required>
 
-                <input type="submit" value="Guardar cambios">
-                <a class="historial" href="historial-pago.php">Ver historial de pagos</a>
+                <input class="boton-rosa" type="submit" value="Guardar cambios">
+                <a class="boton-rosa" href="historial-pago.php">Ver historial de pagos</a>
             </form>
            
             <a href="cerrar-sesion.php" class="logout">Cerrar sesión</a>
