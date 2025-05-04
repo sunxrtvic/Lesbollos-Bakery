@@ -1,3 +1,8 @@
+            <style>
+                #logo{
+                    margin-left: 0;
+                }
+            </style>
             <div id="reservas"><p>PEDIDOS 48H ANTES <i class="fa fa-phone"></i> 965488087 
                 <i class="fa fa-clock"></i>L-V 08:00 - 20:00 | S-D 09:00 - 14:00</p>
             </div>
@@ -21,6 +26,7 @@
                     <li><i class="fa fa-magnifying-glass"></i><form class="search-form">
                         <input type="search" id="search" name="search" placeholder="Buscar...">
                     </form></li>
+                    <li><a href="#" id="viewmode"><i class="fa fa-moon"></i></a></li>
                     <li><a href="./user.php"><i class="fa-regular fa-circle-user"></i></a></li>
                     <li><a href="./carrito.php"><i class="fa-solid fa-cart-shopping"></i></a></li>
                   </ul>

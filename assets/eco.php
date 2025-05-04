@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>LesBollos Bakery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="./css/styleeco.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-    <link rel="stylesheet" href="./css/styletartas.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 </head>
 
 <body>
@@ -24,28 +26,38 @@
         die("Error de conexión: " . $mysqli->connect_error);
     }
 
-    // Obtenemos los productos de la tabla "paecon"
+    // Definimos cuantos productos queremos mostrar por página
+    $productos_por_pagina = 6;
+
+    // Obtenemos la página actual desde la URL, por defecto será la página 1
+    $pagina_actual = isset($_GET['pagina']) ? (int) $_GET['pagina'] : 1;
+    $offset = ($pagina_actual - 1) * $productos_por_pagina;
+
+    // Tomamos los productos de la tabla "bollería" con limitación
     $products = [];
-    $result = $mysqli->query("SELECT id, nombre, precio, stock FROM eco");
+    $result = $mysqli->query("SELECT id, nombre, precio, stock FROM eco LIMIT $offset, $productos_por_pagina");
     while ($row = $result->fetch_assoc()) {
         $row['image'] = "./imagenes/eco/" . $row['nombre'] . ".jpg";
         $products[] = $row;
     }
 
+    // Calculamos el total de productos en la tabla para calcular el número total de páginas que habrá
+    $total_resultados = $mysqli->query("SELECT COUNT(*) as total FROM eco")->fetch_assoc()['total'];
+    $total_paginas = ceil($total_resultados / $productos_por_pagina);
+
     // Creamos la variable "totalCantidad" para guardarla en sesión y mostrar luego en carrito.php el total añadido al carrito de cada producto
     $totalCantidad = array_sum($_SESSION['carrito'] ?? []);
 
-    // Procesamos el manejo añadir un producto al carrito con sesiones
+    // Procesamos el manejo de añadir un producto al carrito con sesiones
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST['cantidad'])) {
         $id = "eco_" . $_POST['product_id'];
-        $cantidad = (int)$_POST['cantidad'];
+        $cantidad = (int) $_POST['cantidad'];
 
         if ($cantidad > 0) {
             if (!isset($_SESSION['carrito'][$id])) {
                 $_SESSION['carrito'][$id] = 0;
             }
             $_SESSION['carrito'][$id] += $cantidad;
-            // Actualizamos la variable "totalCantidad"
             $totalCantidad = array_sum($_SESSION['carrito']);
         }
     }
@@ -53,7 +65,7 @@
 
     <main>
         <section>
-            <h1>Nuestros Panes</h1>
+            <h1>Nuestra Bollería</h1>
             <hr>
             <section id="grid">
                 <?php foreach ($products as $product): ?>
@@ -65,12 +77,32 @@
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                         <form method="POST" action="">
                             <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
-                            <input type="number" name="cantidad" value="1" min="1" max="<?= $product['stock'] ?>" style="width: 60px;">
+                            <input type="number" name="cantidad" value="1" min="1" max="<?= $product['stock'] ?>"
+                                style="width: 60px;">
                             <button type="submit">Añadir al carrito</button>
                         </form>
                     </article>
                 <?php endforeach; ?>
             </section>
+
+            <div id="paginacion">
+                <?php if ($pagina_actual > 1): ?>
+                    <form action="" method="get" style="display:inline;">
+                        <button type="submit" name="pagina" value="<?= $pagina_actual - 1 ?>"
+                            class="pagina-anterior">Anterior</button>
+                    </form>
+                <?php endif; ?>
+
+                <span>Página <?= $pagina_actual ?> de <?= $total_paginas ?></span>
+
+                <?php if ($pagina_actual < $total_paginas): ?>
+                    <form action="" method="get" style="display:inline;">
+                        <button type="submit" name="pagina" value="<?= $pagina_actual + 1 ?>"
+                            class="pagina-siguiente">Siguiente</button>
+                    </form>
+                <?php endif; ?>
+            </div>
+
         </section>
     </main>
 
