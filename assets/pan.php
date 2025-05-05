@@ -17,16 +17,16 @@ $productos_por_pagina = 6;
 $pagina_actual = isset($_GET['pagina']) ? (int) $_GET['pagina'] : 1;
 $offset = ($pagina_actual - 1) * $productos_por_pagina;
 
-// Tomamos los productos de la tabla "pan" con limitación
+//Filtramos los productos de la tabla "pan" para solo tomar los que su stock sea mayor a 0
 $products = [];
-$result = $mysqli->query("SELECT id, nombre, precio, stock FROM pan LIMIT $offset, $productos_por_pagina");
+$result = $mysqli->query("SELECT id, nombre, precio, stock FROM pan WHERE stock > 0 LIMIT $offset, $productos_por_pagina");
 while ($row = $result->fetch_assoc()) {
     $row['image'] = "./imagenes/pan/" . $row['nombre'] . ".jpg";
     $products[] = $row;
 }
 
 // Calculamos el total de productos en la tabla para calcular el número total de páginas que habrá
-$total_resultados = $mysqli->query("SELECT COUNT(*) as total FROM pan")->fetch_assoc()['total'];
+$total_resultados = $mysqli->query("SELECT COUNT(*) as total FROM pan WHERE stock > 0")->fetch_assoc()['total'];
 $total_paginas = ceil($total_resultados / $productos_por_pagina);
 
 // Creamos la variable "totalCantidad" para guardarla en sesión y mostrar luego en carrito.php el total añadido al carrito de cada producto

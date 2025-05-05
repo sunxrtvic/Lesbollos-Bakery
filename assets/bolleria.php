@@ -2,7 +2,7 @@
 session_start();
 
 // Verificar si el usuario ha iniciado sesión
-$usuario_autenticado = isset($_SESSION['usuario']); // Asegúrate de que el nombre de la variable de sesión sea el correcto
+$usuario_autenticado = isset($_SESSION['usuario']);
 
 // Conectamos con la base de datos
 $mysqli = new mysqli("localhost", "root", "", "lesbollos");
@@ -17,16 +17,16 @@ $productos_por_pagina = 6;
 $pagina_actual = isset($_GET['pagina']) ? (int) $_GET['pagina'] : 1;
 $offset = ($pagina_actual - 1) * $productos_por_pagina;
 
-// Tomamos los productos de la tabla "bollería" con limitación
+//Filtramos los productos de la tabla "bolleria" para solo tomar los que su stock sea mayor a 0
 $products = [];
-$result = $mysqli->query("SELECT id, nombre, precio, stock FROM bolleria LIMIT $offset, $productos_por_pagina");
+$result = $mysqli->query("SELECT id, nombre, precio, stock FROM bolleria WHERE stock > 0 LIMIT $offset, $productos_por_pagina");
 while ($row = $result->fetch_assoc()) {
     $row['image'] = "./imagenes/bolleria/" . $row['nombre'] . ".jpg";
     $products[] = $row;
 }
 
 // Calculamos el total de productos en la tabla para calcular el número total de páginas que habrá
-$total_resultados = $mysqli->query("SELECT COUNT(*) as total FROM bolleria")->fetch_assoc()['total'];
+$total_resultados = $mysqli->query("SELECT COUNT(*) as total FROM tartas WHERE stock > 0")->fetch_assoc()['total'];
 $total_paginas = ceil($total_resultados / $productos_por_pagina);
 
 // Creamos la variable "totalCantidad" para guardarla en sesión y mostrar luego en carrito.php el total añadido al carrito de cada producto
