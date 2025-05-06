@@ -84,10 +84,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $precio_unitario = $producto['precio'];
             $subtotal = $producto['subtotal'];
 
+            // Insertamos los detalles del pedido en la tabla detalles_pedido
             $stmt_detalles = $mysqli->prepare("INSERT INTO detalles_pedido (pedido_id, tabla_producto, producto_id, cantidad, precio_unitario, subtotal) VALUES (?, ?, ?, ?, ?, ?)");
             $stmt_detalles->bind_param("isiddd", $pedido_id, $tabla_producto, $producto_id, $producto['cantidad'], $precio_unitario, $subtotal);
             $stmt_detalles->execute();
             $stmt_detalles->close();
+
+            // Actualizamos el stock para que reste 1 al producto/s
+            $stmt_stock = $mysqli->prepare("UPDATE $tabla_producto SET stock = stock - ? WHERE id = ?");
+            $stmt_stock->bind_param("ii", $producto['cantidad'], $producto_id);
+            $stmt_stock->execute();
+            $stmt_stock->close();
         }
 
         unset($_SESSION['carrito']); // Vaciamos el carrito una vez realizado el pago
@@ -103,4 +110,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Error al procesar el pago: " . $e->getMessage();
     }
 }
+
 ?>

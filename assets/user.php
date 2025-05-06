@@ -1,14 +1,11 @@
 <?php
 session_start();
 
-
-// Redirigir si ya ha iniciado sesión
 if (isset($_SESSION['usuario'])) {
     header("Location: perfil.php");
     exit();
 }
 
-// Conexión a la base de datos
 $conn = new mysqli("localhost", "root", "", "lesbollos");
 if ($conn->connect_error) {
     die("Error de conexión: " . $conn->connect_error);
@@ -18,7 +15,6 @@ $mensaje = "";
 
 // Manejo del registro
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['registro'])) {
-    //Preparamos los datos que vamos a guardar en la base de datos
     $nombre = $_POST['nombre'];
     $apellidos = $_POST['apellidos'];
     $email = $_POST['mail'];
@@ -54,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
     $email = $_POST['email'];
     $pass = $_POST['contraseña'];
 
+    // Verificamos primero en la tabla de users
     $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -62,17 +59,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
     if ($resultado->num_rows === 1) {
         $user = $resultado->fetch_assoc();
         if (password_verify($pass, $user['contraseña'])) {
+            $user['tipo'] = 'user'; // ← Tipo de usuario
             $_SESSION['usuario'] = $user;
             header("Location: principal.php");
             exit();
-        } else {
-            $mensaje = "Contraseña incorrecta.";
         }
-    } else {
-        $mensaje = "Usuario no encontrado.";
     }
+
+    // Si no está en 'users', intentamos en 'admin'
+    $stmt = $conn->prepare("SELECT * FROM admin WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    if ($resultado->num_rows === 1) {
+        $admin = $resultado->fetch_assoc();
+        if ($pass === $admin['contraseña']) {
+            $admin['tipo'] = 'admin';
+            $_SESSION['usuario'] = $admin;
+            header("Location: principal.php");
+            exit();
+        }
+    }
+
+    // Si no está en ninguna tabla
+    $mensaje = "Usuario o contraseña incorrectos.";
     $stmt->close();
 }
+
 
 $conn->close();
 ?>

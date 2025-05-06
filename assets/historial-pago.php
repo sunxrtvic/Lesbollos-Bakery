@@ -27,7 +27,6 @@
 
     <main>
         <?php
-        session_start();
 
         if (!isset($_SESSION['usuario']) || !isset($_SESSION['usuario']['id'])) {
             echo "<p>Debes iniciar sesión para ver tu historial de pagos.</p>";

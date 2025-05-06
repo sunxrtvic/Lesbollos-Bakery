@@ -1,10 +1,7 @@
 <?php
-session_start();
+include_once("encabezado.php");
+$usuario_autenticado = isset($_SESSION['usuario']);
 
-// Verificar si el usuario ha iniciado sesión
-$usuario_autenticado = isset($_SESSION['usuario']); // Asegúrate de que el nombre de la variable de sesión sea el correcto
-
-// Conectamos con la base de datos
 $mysqli = new mysqli("localhost", "root", "", "lesbollos");
 if ($mysqli->connect_error) {
     die("Error de conexión: " . $mysqli->connect_error);
@@ -73,12 +70,8 @@ if ($mensaje) {
 </head>
 
 <body>
-    <!-- Incluimos el header -->
-    <?php include_once("encabezado.php"); ?>
-
-
     <?php if ($mensaje): ?>
-        <!-- Mostrar el mensaje solo si existe -->
+        <!-- Mostramos el mensaje solo si existe -->
         <div class="mensaje-exito-carrito">
             <?= $mensaje ?>
         </div>
@@ -86,19 +79,38 @@ if ($mensaje) {
 
     <main>
         <section>
-            <h1>Nuestro Pan</h1>
+            <h1>Nuestros Panes</h1>
             <hr>
             <section id="grid">
                 <?php foreach ($products as $product): ?>
                     <article>
                         <img src="<?= $product['image'] ?>" alt="<?= htmlspecialchars($product['nombre']) ?>">
                         <h2><?= htmlspecialchars($product['nombre']) ?></h2>
-                        <p class="subtitulo"><?= number_format($product['precio'], 2) ?> €/kg - Stock: <?= $product['stock'] ?></p>
+                        <p class="subtitulo"><?= number_format($product['precio'], 2) ?> €/kg - Stock:
+                            <?= $product['stock'] ?>
+                        </p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        <form method="POST" action="">
-                            <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
-                            <input type="number" name="cantidad" value="1" min="1" max="<?= $product['stock'] ?>" style="width: 60px;">
-                            <button type="submit">Añadir al carrito</button>
+                        <!-- Si el usuario no es admin se le muestra el botón para añadir el producto al carrito y el input number para que eliga la cantidad-->
+                        <?php if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo'] !== 'admin'): ?>
+                            <form method="POST" action="">
+                                <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                                <input type="number" name="cantidad" value="1" min="1" max="<?= $product['stock'] ?>"
+                                    style="width: 60px;">
+                                <button type="submit">Añadir al carrito</button>
+                            <?php endif; ?>
+                            <!-- Si el usuario es admin se le muestra los botones para eliminar o editar el producto-->
+                            <?php if (isset($_SESSION['usuario']) && $_SESSION['usuario']['tipo'] === 'admin'): ?>
+                                <form method="POST" action="editar-producto.php" style="display:inline;">
+                                    <input type="hidden" name="producto_id" value="<?= $product['id'] ?>">
+                                    <button type="submit">Editar producto</button>
+                                </form>
+                                <form method="POST" action="eliminar-producto.php" style="display:inline;"
+                                    onsubmit="return confirm('¿Estás seguro de que deseas eliminar este producto?');">
+                                    <input type="hidden" name="producto_id" value="<?= $product['id'] ?>">
+                                    <input type="hidden" name="tabla" value="pan">
+                                    <button type="submit">Eliminar producto</button>
+                                </form>
+                            <?php endif; ?>
                         </form>
                     </article>
                 <?php endforeach; ?>
@@ -107,7 +119,8 @@ if ($mensaje) {
             <div id="paginacion">
                 <?php if ($pagina_actual > 1): ?>
                     <form action="" method="get" style="display:inline;">
-                        <button type="submit" name="pagina" value="<?= $pagina_actual - 1 ?>" class="pagina-anterior">Anterior</button>
+                        <button type="submit" name="pagina" value="<?= $pagina_actual - 1 ?>"
+                            class="pagina-anterior">Anterior</button>
                     </form>
                 <?php endif; ?>
 
@@ -115,7 +128,8 @@ if ($mensaje) {
 
                 <?php if ($pagina_actual < $total_paginas): ?>
                     <form action="" method="get" style="display:inline;">
-                        <button type="submit" name="pagina" value="<?= $pagina_actual + 1 ?>" class="pagina-siguiente">Siguiente</button>
+                        <button type="submit" name="pagina" value="<?= $pagina_actual + 1 ?>"
+                            class="pagina-siguiente">Siguiente</button>
                     </form>
                 <?php endif; ?>
             </div>
@@ -126,4 +140,5 @@ if ($mensaje) {
     <?php include_once("footer.php"); ?>
 
 </body>
+
 </html>
