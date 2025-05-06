@@ -101,8 +101,9 @@ if ($mensaje) {
                             <?php endif; ?>
                             <!-- Si el usuario es admin se le muestra los botones para eliminar o editar el producto-->
                             <?php if (isset($_SESSION['usuario']) && $_SESSION['usuario']['tipo'] === 'admin'): ?>
-                                <form method="POST" action="editar-producto.php" style="display:inline;">
+                                <form method="GET" action="editar-producto.php" style="display:inline;">
                                     <input type="hidden" name="producto_id" value="<?= $product['id'] ?>">
+                                    <input type="hidden" name="tabla" value="tartas">
                                     <button type="submit">Editar producto</button>
                                 </form>
                                 <form method="POST" action="eliminar-producto.php" style="display:inline;"
