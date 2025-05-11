@@ -1,5 +1,5 @@
 <?php
-session_start();
+include_once ("encabezado.php");
 
 if (isset($_SESSION['usuario'])) {
     header("Location: perfil.php");
@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['registro'])) {
     $nombre = $_POST['nombre'];
     $apellidos = $_POST['apellidos'];
     $email = $_POST['mail'];
-    $passHash = password_hash($_POST['contraseña'], PASSWORD_DEFAULT);
+    $contraHash = password_hash($_POST['contraseña'], PASSWORD_DEFAULT);
     $edad = $_POST['edad'];
     $telefono = $_POST['telefono'];
     $acepta = isset($_POST['acepta']) ? 1 : 0;
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['registro'])) {
         $mensaje = "⚠️ El correo ya está registrado.";
     } else {
         $stmt = $conn->prepare("INSERT INTO users (nombre, apellidos, email, contraseña, edad, telefono, acepta) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssssi", $nombre, $apellidos, $email, $passHash, $edad, $telefono, $acepta);
+        $stmt->bind_param("ssssssi", $nombre, $apellidos, $email, $contraHash, $edad, $telefono, $acepta);
         if ($stmt->execute()) {
             //Si el registro se lleva a cabo, sale este mensaje
             $mensaje = "Registro realizado con éxito, puedes iniciar sesión.";
@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['registro'])) {
 // Manejo del inicio de sesión
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
     $email = $_POST['email'];
-    $pass = $_POST['contraseña'];
+    $password= $_POST['contraseña'];
 
     // Verificamos primero en la tabla de users
     $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
@@ -58,8 +58,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
 
     if ($resultado->num_rows === 1) {
         $user = $resultado->fetch_assoc();
-        if (password_verify($pass, $user['contraseña'])) {
-            $user['tipo'] = 'user'; // ← Tipo de usuario
+        if (password_verify($password, $user['contraseña'])) {
+            $user['tipo'] = 'user'; // Así distinguimos entre usuarios y administradores
             $_SESSION['usuario'] = $user;
             header("Location: principal.php");
             exit();
@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
 
     if ($resultado->num_rows === 1) {
         $admin = $resultado->fetch_assoc();
-        if ($pass === $admin['contraseña']) {
+        if ($password === $admin['contraseña']) {
             $admin['tipo'] = 'admin';
             $_SESSION['usuario'] = $admin;
             header("Location: principal.php");
@@ -98,8 +98,8 @@ $conn->close();
     <meta charset="UTF-8">
     <title>LesBollos Bakery</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-    <link rel="stylesheet" href="./css/styleuser.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="./css/styleuser.css">
     <style>
         input[type="date"],
         input[type="password"],
@@ -135,7 +135,7 @@ $conn->close();
 </head>
 
 <body>
-<?php include_once ("encabezado.php");?>
+
     <main>
         <section class="principal">
             <h1 style="font-family: 'Dosis', sans-serif;">Regístrese o inicie sesión en nuestra web</h1>
@@ -195,18 +195,19 @@ $conn->close();
 
     <script>
         // Por defecto mostramos el form de inicio de sesión
-        // Si el usuario clicka en el link lo ocultamos y mostramos el form de registro
+        // Si el usuario clicka en el link lo ocultamos y mostramos el form de registro utilizando JQuery
+        //Para evitar que sea visible para el usuario posibles carga al cambiar de formulario, usamos evet.preventDefault
         $(function () {
             $("#mostrarRegistro").click(function (event) {
                 event.preventDefault();
                 $("#inicio").hide();
-                $("#registro").show();
+                $("#registro").fadeIn(500); //Una pequeña animación de fadeIn para el cambio entre formularios
             });
 
             $("#mostrarLogin").click(function (event) {
                 event.preventDefault();
                 $("#registro").hide();
-                $("#inicio").show();
+                $("#inicio").fadeIn(500);
             });
 
             <?php if (isset($_POST['registro'])): ?>
@@ -215,8 +216,9 @@ $conn->close();
             <?php endif; ?>
         });
 
+        //Validamos con JS los datos del registro y del inicio de sesión
         function validacionRegistro() {
-            var pass = document.getElementById("contraseña").value;
+            var contra = document.getElementById("contraseña").value;
             var nombre = document.getElementById("nombre").value;
             var apellidos = document.getElementById("apellidos").value;
             var email = document.getElementById("mail").value;
@@ -224,23 +226,29 @@ $conn->close();
             var edad = document.getElementById("edad").value;
 
             // Comprobamos que no haya campos vacíos
-            if (!nombre || !apellidos || !email || !pass || !telefono || !edad) {
+            if (!nombre || !apellidos || !email || !contra || !telefono || !edad) {
                 alert("Por favor, completa todos los campos.");
                 return false;
             }
 
             // Validamos de la contraseña (mínimo debe tener 8 caracteres)
-            if (pass.length < 8) {
+            if (contra.length < 8) {
                 alert("La contraseña debe tener al menos 8 caracteres.");
                 return false;
             }
 
-            // Validamos de la longitud del teléfono para que sea de 9 dígitos
+            // Validamos que la longitud del teléfono sea de 9 dígitos
             if (telefono.length !== 9) {
                 alert("El teléfono debe tener exactamente 9 dígitos.");
                 return false;
             }
 
+            //Nos aseguramos que el email que introduzca los usuarios sea correcto usando el regex emailFormato.
+            //Este regex permite mayúsculas y minúsuculas, números, puntos (.), guiones bajos (_), guiones (-)
+            //y signo más (+) al principio (/^) de la cadena. Debe tener un arroba (@) entre la primera parte de la cadena y la segunda.
+            //La segunda parte permite un puntos, mayúsuculas, minúsculas y guiones.
+            //La tercera y ultima parte es para el dominio (gmail.com, por ejemplo), al menos debe tener dos letras (mayúsculas y/o minúsuculas)
+            // al final de la cadena ($)
             var emailFormato = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             if (!emailFormato.test(email)) {
                 alert("Por favor, ingresa un e-mail válido.");
@@ -248,6 +256,8 @@ $conn->close();
             }
 
             // Validamos de la fecha de nacimiento para que no sea posterior a la fecha actual
+            //Para ello utlizamos el objeto Date, tomando la fecha de nacimiento del usuario y 
+            //la fecha actual para después compararlas
             var fechaNacimiento = new Date(edad);
             var fechaActual = new Date();
             if (fechaNacimiento > fechaActual) {
@@ -266,10 +276,11 @@ $conn->close();
 
         function validacionInicio() {
             var email = document.getElementById("emailRegistrado").value;
-            var pass = document.getElementById("contraseñaRegistrada").value;
+            var contra = document.getElementById("contraseñaRegistrada").value;
 
-            // Comprobamos que no haya campos vacíos al iniciar sesión
-            if (!email || !pass) {
+            // Comprobamos que no haya campos vacíos al iniciar sesión, ya que la validación de que los datos
+            // de inicio de sesión estén registrados los hacemos con PHP
+            if (!email || !contra) {
                 alert("Por favor, debes completar todos los campos.");
                 return false;
             }

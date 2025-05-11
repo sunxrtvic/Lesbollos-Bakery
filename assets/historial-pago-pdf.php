@@ -39,6 +39,7 @@ $result = $mysqli->query($query);
 
 $pdf->SetFont('Arial', '', 9);
 
+// Añadimos el contenido al PDF
 while ($row = $result->fetch_assoc()) {
     $id = $row['id'];
     $total = number_format($row['total'], 2);
@@ -70,6 +71,10 @@ while ($row = $result->fetch_assoc()) {
     $productos_str = implode(", ", $productos);
 
     // Añadimos filas al PDF
+    if ($pdf->GetY() + $cellHeight > 250) { // Si llegamos al final de la página
+        $pdf->AddPage(); // Agregamos una nueva página
+    }
+    
     $pdf->Cell(20, $cellHeight, "#$id", 1);
     $pdf->Cell(70, $cellHeight, utf8_decode(substr($productos_str, 0, 45) . (strlen($productos_str) > 50 ? "..." : "")), 1);
     $pdf->Cell(20, $cellHeight, $cantidad_total, 1);
@@ -77,6 +82,19 @@ while ($row = $result->fetch_assoc()) {
     $pdf->Cell(50, $cellHeight, utf8_decode($fecha), 1);
     $pdf->Ln();
 }
+
+// Agregamos el pie de página (numeración)
+class PDF extends FPDF
+{
+    // Pie de página
+    function Footer()
+    {
+        $this->SetY(-15); // Ubicación del pie
+        $this->SetFont('Arial', 'I', 8);
+        $this->Cell(0, 10, 'Página ' . $this->PageNo(), 0, 0, 'C');
+    }
+}
+
 //Hacemos que se descargue el PDF
 $pdf->Output('D', 'historial_pagos.pdf');
 ?>

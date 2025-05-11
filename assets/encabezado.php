@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 ?>
 
@@ -6,7 +6,17 @@ session_start();
     #logo {
         margin-left: 0;
     }
+
+    #header {
+        z-index: 1;
+    }
 </style>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
 <div id="reservas">
     <p>PEDIDOS 48H ANTES <i class="fa fa-phone"></i> 965488087
         <i class="fa fa-clock"></i>L-V 08:00 - 20:00 | S-D 09:00 - 14:00
@@ -44,9 +54,9 @@ session_start();
         <?php endif; ?>
 
         <?php if (isset($_SESSION['usuario']) && $_SESSION['usuario']['tipo'] === 'admin'): ?>
-        <!--Icono exclusivo para admins del panel de control-->
-        <li><a href="./admin-panel.php"><i class="fa-solid fa-users-gear"></i></a></li>
-    <?php endif; ?>
+            <!--Icono exclusivo para admins del panel de control-->
+            <li><a href="./admin-panel.php"><i class="fa-solid fa-users-gear"></i></a></li>
+        <?php endif; ?>
     </ul>
 
 </div>

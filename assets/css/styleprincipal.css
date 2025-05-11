@@ -196,6 +196,7 @@ button{
 .principal > h1{
     text-align: center;
     padding: 1.25rem;
+    padding-top: 2.5rem;
     font-size: 2.25rem;
 }
 
@@ -214,6 +215,18 @@ hr{
     margin-right: 15.625rem; 
     font-family: 'Dosis', sans-serif;
     font-size: 1.125rem;
+}
+
+#galeria{
+  text-align: center;
+  padding-bottom: 3.125rem;
+  padding-top: 1.25rem;
+}
+
+#galeria img{
+    width: 21.875rem;
+    height: 21.875rem;
+    margin-right: 10px;
 }
 
 /* Estilo del footer */
@@ -275,23 +288,31 @@ footer h3 {
 }
 
 #bajo {
-    display: block; 
-    justify-content: left; 
-    align-items: center; 
-    margin-top: 1.25rem; 
+    display: block;
+    margin-top: 1.25rem;
     padding-top: 10px;
     padding-bottom: 0;
-    width: 100%; 
-    border-top: 1px solid #ffffff; 
-    text-align: left; 
+    width: 100%;
+    border-top: 1px solid #ffffff;
+    text-align: left;
 }
 
 .content {
-    display: flex; 
-    align-items: center; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
-.content i{
+#copyright {
+    display: flex;
+}
+
+#clima {
+    text-align: right;
+}
+
+.content i {
     color: white;
     padding-right: 7px;
 }
@@ -314,7 +335,7 @@ footer h3 {
     /*Estilo del header*/
     .menu {
         flex-direction: row; 
-        position: static; /*Posicionamiento normal */
+        position: static; 
         transform: none;
         float: right;
         background-color: white;
