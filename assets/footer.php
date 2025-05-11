@@ -89,7 +89,7 @@
 
                             // Aquí se va mostrando el icono y la temperatura
                             $('#clima').html(
-                                "<i class="fa-solid ${iconos}"></i> ${temp}°C"
+                                `<i class="fa-solid ${iconos}"></i> ${temp}°C`
                             );
                         },
                         error: function () {
