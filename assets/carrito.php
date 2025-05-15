@@ -82,7 +82,7 @@
                 $subtotal = $cant * $prod['precio'];
                 $total += $subtotal;
 
-                echo "<tr>";
+                echo "<tr class='tabla'>";
                 echo "<td><img src='{$prod['image']}' style='width: 50px;'></td>";
                 echo "<td>" . htmlspecialchars($prod['nombre']) . "</td>";
                 echo "<td>$cant</td>";
@@ -98,7 +98,7 @@
                 echo "</tr>";
             }
 
-            echo "<tr><td colspan='4' style='text-align: right;'><strong>Total:</strong></td>
+            echo "<tr class='tabla'><td colspan='4' style='text-align: right;'><strong>Total:</strong></td>
               <td>" . number_format($total, 2) . " €</td><td></td></tr>";
             echo "</table>";
 
@@ -117,5 +117,95 @@
 
     <?php include_once "footer.php"; ?>
 </body>
+<script>
+    // Modo día y modo noche usando addClass y removeClass junto a JQuery
+    $(function () {
+        // Aplica el modo guardado al cargar la página
+        if (localStorage.getItem("modo") === "noche") {
+            var logo_dia = $("#logo");
+            var logo_noche = $("#logo1");
+            var body = $("body");
+            var icon = $("#viewmode i");
+            var header = $("#header");
+            var inicio = $("#inicio");
+            var registro = $("#registro");
+            var tabla = $(".tabla");
+            var articles = $("article");
+            var forms = $("form");
+            var icon_user = $(".fa-circle-user");
+            var icon_shop = $(".fa-cart-shopping");
+            var icon_search = $(".fa-magnifying-glass");
+            var icon_admin = $(".fa-users-gear");
+
+            body.addClass("noche");
+            header.addClass("nocheHeader");
+            inicio.addClass("noche2");
+            registro.addClass("noche2");
+            tabla.addClass("noche2");
+            articles.addClass("noche2");
+            icon_user.addClass("nocheIconos");
+            icon_shop.addClass("nocheIconos");
+            icon_search.addClass("nocheIconos");
+            icon_admin.addClass("nocheIconos");
+            icon.addClass("nocheIconos");
+            logo_dia.hide();
+            logo_noche.show();
+            icon.removeClass("fa-moon").addClass("fa-sun");
+        }
+
+        //Cuando el usuario clicka el botón de cambio de modo..
+        $("#viewmode").click(function () {
+            var logo_dia = $("#logo");
+            var logo_noche = $("#logo1");
+            var body = $("body");
+            var icon = $("#viewmode i");
+            var header = $("#header");
+            var inicio = $("#inicio");
+            var registro = $("#registro");
+            var tabla = $(".tabla");
+            var articles = $("article");
+            var forms = $("form");
+            var icon_user = $(".fa-circle-user");
+            var icon_shop = $(".fa-cart-shopping");
+            var icon_search = $(".fa-magnifying-glass");
+            var icon_admin = $(".fa-users-gear");
+
+            if (body.hasClass("noche")) {
+                body.removeClass("noche");
+                header.removeClass("nocheHeader");
+                inicio.removeClass("noche2");
+                registro.removeClass("noche2");
+                tabla.removeClass("noche2");
+                articles.removeClass("noche2");
+                icon_user.removeClass("nocheIconos");
+                icon_shop.removeClass("nocheIconos");
+                icon_search.removeClass("nocheIconos");
+                icon_admin.removeClass("nocheIconos");
+                icon.removeClass("nocheIconos");
+                logo_dia.show();
+                logo_noche.hide();
+                icon.removeClass("fa-sun").addClass("fa-moon");
+                localStorage.setItem("modo", "dia");
+            } else {
+                body.addClass("noche");
+                header.addClass("nocheHeader");
+                inicio.addClass("noche2");
+                registro.addClass("noche2");
+                tabla.addClass("noche2");
+                articles.addClass("noche2");
+                icon_user.addClass("nocheIconos");
+                icon_shop.addClass("nocheIconos");
+                icon_search.addClass("nocheIconos");
+                icon_admin.addClass("nocheIconos");
+                icon.addClass("nocheIconos");
+                logo_dia.hide();
+                logo_noche.show();
+                icon.removeClass("fa-moon").addClass("fa-sun");
+
+                localStorage.setItem("modo", "noche");
+            }
+        });
+    });
+</script>
 
 </html>

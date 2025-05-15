@@ -24,7 +24,9 @@ session_start();
 </div>
 
 <div id="header">
-    <img id="logo" src="./imagenes/logo/LesBollos_logo.png" alt="logo de LesBollos">
+    <img id="logo" src="./imagenes/logo/LesBollos_logo.png" alt="logo de LesBollos" > <!-- Logo modo día-->
+    <img id="logo1" src="./imagenes/logo/logo-noche1.png" alt="logo de LesBollos" style="display:none;"> <!-- Logo modo noche-->
+    
     <nav>
         <ul class="menu">
             <li><a href="./principal.php">Inicio</a></li>

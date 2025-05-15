@@ -36,6 +36,15 @@ button{
     padding-top: 2px;
     float: left;
   }
+
+  #logo1 {
+    width: 16.25rem;
+    height: 9.375rem;
+    padding-left: 1.5625rem;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    float: left;
+  }
   
   #reservas {
     width: 100%;
@@ -46,7 +55,6 @@ button{
     background-color: #b55690;
     color: white;
     border-bottom: 1px solid lightgray;
-    margin-bottom: 0.5rem;
   }
   
   #reservas .fa {
@@ -372,6 +380,46 @@ footer h3 {
 
     #icono{
         display: none;
+    }
+
+ /* Modo noche */
+    .noche{
+      background-color: #0f0f0f !important; 
+        color: white;
+    }
+
+    .noche2{
+        background-color: rgba(225, 225, 225, 0.1) !important;
+        color: white!important;
+        box-shadow: 0 0 15px #505050  !important;
+        border: none;
+    }
+
+      .nocheHeader {
+        background-color: #0f0f0f !important;
+        color: white; 
+        border-bottom: 1px solid rgba(225, 225, 225, 0.1) !important;
+        
+    }
+
+    .nocheHeader .menu{
+        background-color: #0f0f0f !important;
+    }
+
+    .nocheHeader .menu li a {
+        color: white;
+    }
+
+    .nocheHeader .menu li a:hover {
+        color: #D52D00; 
+    }
+
+    .nocheIconos{
+      color: white !important;
+    }
+
+    .nochelogout{
+        color: white !important;
     }
 
     /*Estilo del footer*/

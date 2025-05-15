@@ -1,5 +1,5 @@
 <?php
-include_once ("encabezado.php");
+include_once("encabezado.php");
 
 if (isset($_SESSION['usuario'])) {
     header("Location: perfil.php");
@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['registro'])) {
 // Manejo del inicio de sesión
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
     $email = $_POST['email'];
-    $password= $_POST['contraseña'];
+    $password = $_POST['contraseña'];
 
     // Verificamos primero en la tabla de users
     $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
@@ -124,7 +124,7 @@ $conn->close();
             margin: 10px 0;
         }
 
-        main{
+        main {
             min-height: 100vh;
             width: 100%;
             display: flex;
@@ -189,7 +189,7 @@ $conn->close();
         </section>
     </main>
 
-    <?php include_once ("footer.php"); ?>
+    <?php include_once("footer.php"); ?>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -287,6 +287,104 @@ $conn->close();
 
             return true;
         }
+
+        // Modo día y modo noche usando addClass y removeClass junto a JQuery
+        $(function () {
+            // Aplica el modo guardado al cargar la página
+            if (localStorage.getItem("modo") === "noche") {
+                var logo_dia = $("#logo");
+                var logo_noche = $("#logo1");
+                var body = $("body");
+                var icon = $("#viewmode i");
+                var header = $("#header");
+                var linkRegistro = $("#mostrarRegistro");
+                var linkLogin = $("#mostrarLogin");
+                var inicio = $("#inicio");
+                var registro = $("#registro");
+                var principal = $(".principal");
+                var articles = $("article");
+                var forms = $("form");
+                var icon_user = $(".fa-circle-user");
+                var icon_shop = $(".fa-cart-shopping");
+                var icon_search = $(".fa-magnifying-glass");
+                var icon_admin = $(".fa-users-gear");
+
+                body.addClass("noche");
+                header.addClass("nocheHeader");
+                inicio.addClass("noche2");
+                registro.addClass("noche2");
+                linkRegistro.addClass("nochelogout");
+                linkLogin.addClass("nochelogout");
+                principal.addClass("noche");
+                articles.addClass("noche2");
+                icon_user.addClass("nocheIconos");
+                icon_shop.addClass("nocheIconos");
+                icon_search.addClass("nocheIconos");
+                icon_admin.addClass("nocheIconos");
+                icon.addClass("nocheIconos");
+                logo_dia.hide();
+                logo_noche.show();
+                icon.removeClass("fa-moon").addClass("fa-sun");
+            }
+
+            $("#viewmode").click(function () {
+                var logo_dia = $("#logo");
+                var logo_noche = $("#logo1");
+                var body = $("body");
+                var icon = $("#viewmode i");
+                var header = $("#header");
+                var inicio = $("#inicio");
+                var registro = $("#registro");
+                var linkRegistro = $("#mostrarRegistro");
+                var linkLogin = $("#mostrarLogin");
+                var principal = $(".principal");
+                var articles = $("article");
+                var forms = $("form");
+                var icon_user = $(".fa-circle-user");
+                var icon_shop = $(".fa-cart-shopping");
+                var icon_search = $(".fa-magnifying-glass");
+                var icon_admin = $(".fa-users-gear");
+
+                if (body.hasClass("noche")) {
+                    body.removeClass("noche");
+                    header.removeClass("nocheHeader");
+                    inicio.removeClass("noche2");
+                    registro.removeClass("noche2");
+                    linkRegistro.removeClass("nochelogout");
+                    linkLogin.removeClass("nochelogout");
+                    principal.removeClass("noche");
+                    articles.removeClass("noche2");
+                    icon_user.removeClass("nocheIconos");
+                    icon_shop.removeClass("nocheIconos");
+                    icon_search.removeClass("nocheIconos");
+                    icon_admin.removeClass("nocheIconos");
+                    icon.removeClass("nocheIconos");
+                    logo_dia.show();
+                    logo_noche.hide();
+                    icon.removeClass("fa-sun").addClass("fa-moon");
+                    localStorage.setItem("modo", "dia");
+                } else {
+                    body.addClass("noche");
+                    header.addClass("nocheHeader");
+                    inicio.addClass("noche2");
+                    registro.addClass("noche2");
+                    linkRegistro.addClass("nochelogout");
+                    linkLogin.addClass("nochelogout");
+                    principal.addClass("noche");
+                    articles.addClass("noche2");
+                    icon_user.addClass("nocheIconos");
+                    icon_shop.addClass("nocheIconos");
+                    icon_search.addClass("nocheIconos");
+                    icon_admin.addClass("nocheIconos");
+                    icon.addClass("nocheIconos");
+                    logo_dia.hide();
+                    logo_noche.show();
+                    icon.removeClass("fa-moon").addClass("fa-sun");
+
+                    localStorage.setItem("modo", "noche");
+                }
+            });
+        });
     </script>
 </body>
 

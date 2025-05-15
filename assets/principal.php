@@ -49,10 +49,10 @@
                 Primis himenaeos torquent facilisi augue; scelerisque pulvinar curae.</p>
             <br>
             <div id="galeria">
-            <a href="./imagenes/1.jpg" data-fancybox="galeria" title="uno"><img src="./imagenes/1.jpg"></a>
-            <a href="./imagenes/2.jpg" data-fancybox="galeria" title="dos"><img src="./imagenes/2.jpg"></a>
-            <a href="./imagenes/3.jpg" data-fancybox="galeria" title="tres"><img src="./imagenes/3.jpg"></a>
-        </div>
+                <a href="./imagenes/1.jpg" data-fancybox="galeria" title="uno"><img src="./imagenes/1.jpg"></a>
+                <a href="./imagenes/2.jpg" data-fancybox="galeria" title="dos"><img src="./imagenes/2.jpg"></a>
+                <a href="./imagenes/3.jpg" data-fancybox="galeria" title="tres"><img src="./imagenes/3.jpg"></a>
+            </div>
         </section>
     </main>
 
@@ -62,7 +62,7 @@
 
     <script>
         //Funcion para el Fancybox
-        $(function() {
+        $(function () {
             Fancybox.bind('[data-fancybox="galeria"]', {
                 Toolbar: {
                     display: ["slideshow", "thumbs", "close"]
@@ -75,6 +75,95 @@
                 }
             });
         });
+
+        // Modo día y modo noche usando addClass y removeClass junto a JQuery
+        $(function () {
+            // Aplicar el modo guardado al cargar la página
+            if (localStorage.getItem("modo") === "noche") {
+                var logo_dia = $("#logo");
+                var logo_noche = $("#logo1");
+                var body = $("body");
+                var icon = $("#viewmode i");
+                var header = $("#header");
+                var inicio = $("#inicio");
+                var registro = $("#registro");
+                var principal = $(".principal");
+                var articles = $("article");
+                var forms = $("form");
+                var icon_user = $(".fa-circle-user");
+                var icon_shop = $(".fa-cart-shopping");
+                var icon_search = $(".fa-magnifying-glass");
+                var icon_admin = $(".fa-users-gear");
+
+                body.addClass("noche");
+                header.addClass("nocheHeader");
+                inicio.addClass("noche2");
+                registro.addClass("noche2");
+                principal.addClass("noche");
+                articles.addClass("noche2");
+                icon_user.addClass("nocheIconos");
+                icon_shop.addClass("nocheIconos");
+                icon_search.addClass("nocheIconos");
+                icon_admin.addClass("nocheIconos");
+                icon.addClass("nocheIconos");
+                logo_dia.hide();
+                logo_noche.show();
+                icon.removeClass("fa-moon").addClass("fa-sun");
+            }
+            //Cuando el usuario clicka el botón de cambio de modo..
+            $("#viewmode").click(function () {
+                var logo_dia = $("#logo");
+                var logo_noche = $("#logo1");
+                var body = $("body");
+                var icon = $("#viewmode i");
+                var header = $("#header");
+                var inicio = $("#inicio");
+                var registro = $("#registro");
+                var principal = $(".principal");
+                var articles = $("article");
+                var forms = $("form");
+                var icon_user = $(".fa-circle-user");
+                var icon_shop = $(".fa-cart-shopping");
+                var icon_search = $(".fa-magnifying-glass");
+                var icon_admin = $(".fa-users-gear");
+
+                if (body.hasClass("noche")) {
+                    body.removeClass("noche");
+                    header.removeClass("nocheHeader");
+                    inicio.removeClass("noche2");
+                    registro.removeClass("noche2");
+                    principal.removeClass("noche");
+                    articles.removeClass("noche2");
+                    icon_user.removeClass("nocheIconos");
+                    icon_shop.removeClass("nocheIconos");
+                    icon_search.removeClass("nocheIconos");
+                    icon_admin.removeClass("nocheIconos");
+                    icon.removeClass("nocheIconos");
+                    logo_dia.show();
+                    logo_noche.hide();
+                    icon.removeClass("fa-sun").addClass("fa-moon");
+                    localStorage.setItem("modo", "dia");
+                } else {
+                    body.addClass("noche");
+                    header.addClass("nocheHeader");
+                    inicio.addClass("noche2");
+                    registro.addClass("noche2");
+                    principal.addClass("noche");
+                    articles.addClass("noche2");
+                    icon_user.addClass("nocheIconos");
+                    icon_shop.addClass("nocheIconos");
+                    icon_search.addClass("nocheIconos");
+                    icon_admin.addClass("nocheIconos");
+                    icon.addClass("nocheIconos");
+                    logo_dia.hide();
+                    logo_noche.show();
+                    icon.removeClass("fa-moon").addClass("fa-sun");
+
+                    localStorage.setItem("modo", "noche");
+                }
+            });
+        });
+
     </script>
 
 </body>
