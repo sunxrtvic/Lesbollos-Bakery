@@ -21,7 +21,7 @@ $sql = "CREATE TABLE IF NOT EXISTS eco (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
 
 if ($conn->query($sql) === TRUE) {
-    echo "Tabla 'pan' creada correctamente.<br>";
+    echo "Tabla 'eco' creada correctamente.<br>";
 } else {
     die("Error al crear la tabla: " . $conn->error);
 }
