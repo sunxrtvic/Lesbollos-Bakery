@@ -236,6 +236,47 @@ input[type="submit"]:hover {
     background-color: #D52D00;
 }
 
+/* Modo noche */
+    .noche{
+      background-color: #0f0f0f !important; 
+        color: white;
+    }
+
+    .noche2{
+        background-color: rgba(225, 225, 225, 0.1) !important;
+        color: white!important;
+        box-shadow: 0 0 15px #505050  !important;
+        border: none;
+    }
+
+      .nocheHeader {
+        background-color: #0f0f0f !important;
+        color: white; 
+        border-bottom: 1px solid rgba(225, 225, 225, 0.1) !important;
+        
+    }
+
+    .nocheHeader .menu{
+        background-color: #0f0f0f !important;
+    }
+
+    .nocheHeader .menu li a {
+        color: white;
+    }
+
+    .nocheHeader .menu li a:hover {
+        color: #D52D00; 
+    }
+
+    .nocheIconos{
+      color: white !important;
+    }
+
+    .nochelogout{
+        color: white !important;
+    }
+
+
 /* Estilo del footer */
 
 footer {
@@ -380,46 +421,6 @@ footer h3 {
 
     #icono{
         display: none;
-    }
-
- /* Modo noche */
-    .noche{
-      background-color: #0f0f0f !important; 
-        color: white;
-    }
-
-    .noche2{
-        background-color: rgba(225, 225, 225, 0.1) !important;
-        color: white!important;
-        box-shadow: 0 0 15px #505050  !important;
-        border: none;
-    }
-
-      .nocheHeader {
-        background-color: #0f0f0f !important;
-        color: white; 
-        border-bottom: 1px solid rgba(225, 225, 225, 0.1) !important;
-        
-    }
-
-    .nocheHeader .menu{
-        background-color: #0f0f0f !important;
-    }
-
-    .nocheHeader .menu li a {
-        color: white;
-    }
-
-    .nocheHeader .menu li a:hover {
-        color: #D52D00; 
-    }
-
-    .nocheIconos{
-      color: white !important;
-    }
-
-    .nochelogout{
-        color: white !important;
     }
 
     /*Estilo del footer*/
