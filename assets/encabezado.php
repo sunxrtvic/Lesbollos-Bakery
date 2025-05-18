@@ -34,7 +34,7 @@ session_start();
             <li><a href="./tartas.php">Tartas Caseras</a></li>
             <li><a href="./bolleria.php">Bollería Casera</a></li>
             <li><a href="./eco.php">Productos Ecológicos</a></li>
-            <li id="ultimo"><a href="./nosotros.php">Nosotros y nuestra granja</a></li>
+            <li id="ultimo"><a href="./nosotros.php">Sobre Nosotros</a></li>
         </ul>
         <input type="checkbox" id="hamburguesa">
         <label for="hamburguesa" class="fa fa-bars" id="icono"></label>

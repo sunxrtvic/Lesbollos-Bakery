@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="./css/styleprincipal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5/dist/fancybox/fancybox.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5/dist/fancybox/fancybox.umd.js"></script>
 </head>
 
 <body>
@@ -49,9 +51,18 @@
                 Primis himenaeos torquent facilisi augue; scelerisque pulvinar curae.</p>
             <br>
             <div id="galeria">
-                <a href="./imagenes/1.jpg" data-fancybox="galeria" title="uno"><img src="./imagenes/1.jpg"></a>
-                <a href="./imagenes/2.jpg" data-fancybox="galeria" title="dos"><img src="./imagenes/2.jpg"></a>
-                <a href="./imagenes/3.jpg" data-fancybox="galeria" title="tres"><img src="./imagenes/3.jpg"></a>
+                <!-- Solo se muestra en la página esta imagen -->
+                <a href="./imagenes/2.jpg" data-fancybox="galeria" title="uno">
+                    <img src="./imagenes/2.jpg" alt="uno">
+                </a>
+
+                <!-- Estas están ocultas para la página pero se mostrarán en la interfaz de fancybox -->
+                <a href="./imagenes/1.jpg" data-fancybox="galeria" title="dos" style="display: none;">
+                    <img src="./imagenes/1.jpg" alt="dos">
+                </a>
+                <a href="./imagenes/3.jpg" data-fancybox="galeria" title="tres" style="display: none;">
+                    <img src="./imagenes/3.jpg" alt="tres">
+                </a>
             </div>
         </section>
     </main>
@@ -68,10 +79,10 @@
                     display: ["slideshow", "thumbs", "close"]
                 },
                 Thumbs: {
-                    autoStart: true
+                    autoStart: false
                 },
-                Slideshow: {
-                    autoStart: true
+                Carousel: {
+                    infinite: true
                 }
             });
         });

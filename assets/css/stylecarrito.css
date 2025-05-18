@@ -428,19 +428,31 @@ footer h3 {
 }
 
 @media(min-width: 1142px){
+
+    html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    }
+
+    #header {
+      flex-wrap: nowrap; /* Evita que el menú salte abajo */
+    }
+    
     #reservas{  
         text-align: left;
         padding-left: 1.25rem;
         padding: 1rem;
         font-size: 1.115rem;
       }
+
     .menu {
         flex-direction: row; 
-        position: static;
+        position: static; 
         transform: none;
         float: right;
         background-color: white;
-    
+        width: auto;
+        margin-left: auto;
     }
     
     .menu li {

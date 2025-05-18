@@ -414,6 +414,11 @@ footer h3 {
 
 /* PC: 3 columnas (desde 1142px) */
 @media (min-width: 1142px) {
+
+  #header {
+      flex-wrap: nowrap; /* Evita que el menú salte abajo */
+    }
+
   #reservas{  
     text-align: left;
     padding-left: 1.25rem;
@@ -422,12 +427,14 @@ footer h3 {
   }
   
   .menu {
-    flex-direction: row;
-    position: static;
-    transform: none;
-    float: right;
-    background-color: white;
-  }
+      flex-direction: row; 
+      position: static; 
+      transform: none;
+      float: right;
+      background-color: white;
+      width: auto;
+      margin-left: auto;
+    }
 
   .menu li {
     float: left;

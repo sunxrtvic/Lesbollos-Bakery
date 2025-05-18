@@ -261,7 +261,6 @@ hr{
 }
 
 #galeria img{
-    width: 21.875rem;
     height: 21.875rem;
     margin-right: 10px;
 }
@@ -370,13 +369,25 @@ footer h3 {
 @media(min-width: 1142px){
     
     /*Estilo del header*/
+
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    
+    #header {
+      flex-wrap: nowrap; /* Evita que el menú salte abajo */
+    }
+    
     .menu {
         flex-direction: row; 
         position: static; 
         transform: none;
         float: right;
         background-color: white;
-    
+        width: auto;
+        margin-left: auto;
+        margin:0;
     }
     
     .menu li {
