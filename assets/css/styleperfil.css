@@ -97,7 +97,7 @@ button{
   }
   
   .menu li {
-    padding: 15px;
+    padding: 0.938rem;
     text-align: center;
   }
   
@@ -185,9 +185,9 @@ main {
     flex-direction: column;
     justify-content: flex-start; 
     align-items: center;
-    padding: 40px; 
+    padding: 2.5rem; 
     width: 90%; 
-    max-width: 500px; 
+    max-width: 31.25rem; 
     background-color: #fff;
     border-radius: 10px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
@@ -196,12 +196,12 @@ main {
 
 .contenedor-avatar {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
 }
 
 img.avatar {
-    width: 150px;
-    height: 150px;
+    width: 9.375rem;
+    height: 9.375rem;
     border-radius: 50%;
     border: 2px solid #ccc;
 }
@@ -209,7 +209,7 @@ img.avatar {
 a.logout {
     display: block;
     margin-top: 10px;
-    font-size: 18px;
+    font-size: 1.125rem;
     color: #b55690;
     text-decoration: none;
     text-align: center;
@@ -220,21 +220,21 @@ a.logout:hover {
 }
 
 h1.contenedor-perfil {
-    font-size: 28px; 
+    font-size: 1.75rem; 
     margin-bottom: 10px;
     color: #333;
     text-align: center;
 }
 
 p.contenedor-perfil {
-    font-size: 18px;
+    font-size: 1.125rem;
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 0.938rem;
     color: #666;
 }
 
 .mensaje {
-    margin-bottom: 15px;
+    margin-bottom: 0.938rem;
     font-weight: bold;
     color: #b55690;
     text-align: center;
@@ -245,7 +245,7 @@ p.contenedor-perfil {
     color: white;
     padding: 10px;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
     font-weight: bold;
     margin-top: 3.7rem;
 }
@@ -258,14 +258,14 @@ form {
 form label {
     display: block;
     margin-bottom: 10px;
-    font-size: 16px; 
+    font-size: 1rem; 
 }
 
 form input {
     width: 100%;
-    padding: 15px;
-    margin-bottom: 15px;
-    font-size: 16px;
+    padding: 0.938rem;
+    margin-bottom: 0.938rem;
+    font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 6px;
 }
@@ -273,9 +273,9 @@ form input {
 .boton-rosa {
     display: block;
     width: 100%;
-    padding: 15px;
-    margin-bottom: 15px;
-    font-size: 16px;
+    padding: 0.938rem;
+    margin-bottom: 0.938rem;
+    font-size: 1rem;
     border: none;
     border-radius: 6px;
     background-color: #b55690;
@@ -299,7 +299,7 @@ form input {
     .noche2{
         background-color: rgba(225, 225, 225, 0.1) !important;
         color: white!important;
-        box-shadow: 0 0 15px #505050  !important;
+        box-shadow: 0 0 0.938rem #505050  !important;
         border: none;
     }
 
@@ -489,19 +489,19 @@ footer h3 {
     /*Estilo main*/
 main {
     margin: 0;
-    padding: 20px;
+    padding: 1.25rem;
     background-color: #f9f9f9;
     min-height: 100vh;
 }
 
 .contenedor-perfil {
     display: flex;
-    padding: 40px;
-    max-width: 1000px;
+    padding: 2.5rem;
+    max-width: 62.5rem;
 }
 
 .contenedor-avatar {
-    margin-right: 40px;
+    margin-right: 2.5rem;
 }
 
 .contenedor-info {
@@ -509,7 +509,7 @@ main {
 }
 
 img.avatar {
-    width: 150px;
+    width: 9.375rem;
     border-radius: 50%;
     border: 2px solid #ccc;
 }
@@ -519,7 +519,7 @@ h1 {
 }
 
 .mensaje {
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
     font-weight: bold;
     color: #b55690;
 }
@@ -528,8 +528,8 @@ form input, form select {
     display: block;
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
-    font-size: 16px;
+    margin-bottom: 0.938rem;
+    font-size: 1rem;
 }
 
 form input[type="submit"] {
@@ -548,7 +548,7 @@ a.historial{
 
 a.logout {
     display: inline-block;
-    margin-top: 20px;
+    margin-top: 1.25rem;
     color: #333;
     text-decoration: none;
 }

@@ -94,7 +94,7 @@ button{
   }
   
   .menu li {
-    padding: 15px;
+    padding: 0.938rem;
     text-align: center;
   }
   
@@ -245,7 +245,7 @@ input[type="submit"]:hover {
     .noche2{
         background-color: rgba(225, 225, 225, 0.1) !important;
         color: white!important;
-        box-shadow: 0 0 15px #505050  !important;
+        box-shadow: 0 0 0.938rem #505050  !important;
         border: none;
     }
 

@@ -13,7 +13,7 @@ button {
   margin: 10px;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 button:hover {
@@ -108,7 +108,7 @@ nav:has(#hamburguesa:checked) .menu {
 }
 
 .menu li {
-  padding: 15px;
+  padding: 0.938rem;
   text-align: center;
 }
 
@@ -204,7 +204,7 @@ hr {
 #grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: 1.25rem;
   padding: 0 1rem;
   text-align: center;
 }
@@ -245,7 +245,7 @@ input[type="number"] {
   color: white;
   padding: 10px;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   font-weight: bold;
 }
 
@@ -255,7 +255,7 @@ input[type="number"] {
 
 #paginacion span {
   font-family: "Dosis", sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
   padding: 8px;
 }
 

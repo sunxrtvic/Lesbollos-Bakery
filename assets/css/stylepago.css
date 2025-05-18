@@ -21,7 +21,7 @@ h1 {
 button {
     background-color: #D52D00;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 1.25rem;
     font-size: 1rem;
     cursor: pointer;
     border-radius: 0.3rem;
@@ -36,21 +36,21 @@ button:hover {
 
 form {
     background-color: white;
-    padding: 40px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem;
+    box-shadow: 0 0 0.938rem rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
-    width: 400px;
-    margin: 0 auto 40px auto;
+    width: 25rem;
+    margin: 0 auto 2.5rem auto;
 }
 
 .productos-carrito {
     text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
 }
 
 .productos-carrito table {
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
     border-collapse: collapse;
     font-size: 1rem;
     background-color: #fff;
@@ -72,7 +72,7 @@ form {
 }
 
 .productos-carrito td img {
-    width: 50px;
+    width: 3.125rem;
     height: auto;
     border-radius: 0.25rem;
 }

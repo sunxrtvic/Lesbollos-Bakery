@@ -94,7 +94,7 @@ button{
   }
   
   .menu li {
-    padding: 15px;
+    padding: 0.938rem;
     text-align: center;
   }
   
@@ -202,7 +202,7 @@ table th {
 }
 
 table td img {
-    width: 50px;                 
+    width: 3.125rem;                 
     height: auto;
     border-radius: 0.25rem;
 }
