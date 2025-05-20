@@ -42,11 +42,6 @@ session_start();
 
 <div>
     <ul class="menu-iconos">
-        <li><i class="fa fa-magnifying-glass"></i>
-            <form class="search-form">
-                <input type="search" id="search" name="search" placeholder="Buscar...">
-            </form>
-        </li>
         <li><a href="#" id="viewmode"><i class="fa fa-moon"></i></a></li>
 
         <?php if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo'] !== 'admin'): ?>
