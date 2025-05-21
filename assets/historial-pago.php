@@ -148,7 +148,7 @@
             logo_noche.show();
             icon.removeClass("fa-moon").addClass("fa-sun");
         }
-        //Cuando el usuario clicka el botón de cambio de modo..
+        //Cuando el usuario clicka el botón de cambio de modo...
         $("#viewmode").click(function () {
             var logo_dia = $("#logo");
             var logo_noche = $("#logo1");

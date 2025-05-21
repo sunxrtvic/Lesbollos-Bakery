@@ -47,10 +47,17 @@
 
             if (in_array($fileExt, $allowedExts)) {
                 $newFileName = 'avatar_' . $usuario['id'] . '.' . $fileExt;
-                $uploadPath = __DIR__ . '/imagenes/' . $newFileName;
+                $uploadDir = __DIR__ . '/imagenes/iconos/';
+
+                // Crear carpeta iconos si no existe todavía
+                if (!file_exists($uploadDir)) {
+                    mkdir($uploadDir, 0755, true);
+                }
+
+                $uploadPath = $uploadDir . $newFileName;
 
                 if (move_uploaded_file($fileTmp, $uploadPath)) {
-                    $avatarName = $newFileName;
+                    $avatarName = 'iconos/' . $newFileName; // ruta relativa desde 'imagenes'
                 }
             }
         }
@@ -80,13 +87,11 @@
     <?php endif; ?>
     <div class="contenedor-perfil">
         <div class="contenedor-avatar">
-            <img src="imagenes/<?= !empty($usuario['avatar']) ? htmlspecialchars($usuario['avatar']) : 'default-avatar.jpg' ?>"
+            <img src="imagenes/<?= !empty($usuario['avatar']) ? htmlspecialchars($usuario['avatar']) : 'iconos/default-avatar.jpg' ?>"
                 alt="Avatar" class="avatar">
         </div>
         <div class="contenedor-info">
             <h1>Bienvenid@, <?= htmlspecialchars($usuario['nombre']) ?></h1>
-
-
 
             <form method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="actualizar" value="1">
@@ -122,7 +127,7 @@
 <script>
     // Modo día y modo noche usando addClass y removeClass junto a JQuery
     $(function () {
-        // Aplica el modo guardado al cargar la página
+        // Aplicar el modo guardado al cargar la página
         if (localStorage.getItem("modo") === "noche") {
             var logo_dia = $("#logo");
             var logo_noche = $("#logo1");
@@ -153,7 +158,7 @@
             logo_noche.show();
             icon.removeClass("fa-moon").addClass("fa-sun");
         }
-        //Cuando el usuario clicka el botón de cambio de modo..F
+        //Cuando el usuario clicka el botón de cambio de modo...
         $("#viewmode").click(function () {
             var logo_dia = $("#logo");
             var logo_noche = $("#logo1");
@@ -164,7 +169,6 @@
             var registro = $("#registro");
             var principal = $(".contenedor-perfil");
             var logout = $(".logout");
-            var forms = $("form");
             var icon_user = $(".fa-circle-user");
             var icon_shop = $(".fa-cart-shopping");
             var icon_search = $(".fa-magnifying-glass");
@@ -201,12 +205,10 @@
                 logo_dia.hide();
                 logo_noche.show();
                 icon.removeClass("fa-moon").addClass("fa-sun");
-
                 localStorage.setItem("modo", "noche");
             }
         });
     });
-
 </script>
 
 </html>
