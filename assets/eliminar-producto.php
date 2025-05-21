@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo'] !== 'admin') {
-    header("Location: principal.php");
+    header("Location: index.php");
     exit();
 }
 
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['producto_id'], $_POST
 
     if (!in_array($tabla, $tablas_permitidas)) {
         $_SESSION['mensaje'] = "Tabla no válida.";
-        header("Location: principal.php");
+        header("Location: index.php");
         exit();
     }
 

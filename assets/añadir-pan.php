@@ -2,7 +2,7 @@
 include_once("encabezado.php");
 
 if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['tipo'] !== 'admin') {
-    header("Location: principal.php");
+    header("Location: index.php");
     exit();
 }
 

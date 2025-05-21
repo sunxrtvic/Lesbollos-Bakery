@@ -29,7 +29,7 @@ session_start();
     
     <nav>
         <ul class="menu">
-            <li><a href="./principal.php">Inicio</a></li>
+            <li><a href="./index.php">Inicio</a></li>
             <li><a href="./pan.php">Pan Artesanal</a></li>
             <li><a href="./tartas.php">Tartas Caseras</a></li>
             <li><a href="./bolleria.php">Bollería Casera</a></li>
