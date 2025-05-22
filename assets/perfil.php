@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php
+// Aumentamos el límite de tamaño de archivo permitidoy tamaño total de la petición, ya que el hosting nos da problemas con eso
+ini_set('upload_max_filesize', '20M');
+ini_set('post_max_size', '25M');
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 
@@ -63,7 +68,7 @@
         $avatarName = $usuario['avatar'] ?? "";
 
 
-//Con nuestro hosting no podemos tocar los permisos para mover las imagenes a otra carpeta como iconos, así que vamos manejarnos con la carpeta tmp
+        //Con nuestro hosting no podemos tocar los permisos para mover las imagenes a otra carpeta como iconos, así que vamos manejarnos con la carpeta tmp
 //No es lo recomendado en páginas profesionales, ya que las imágenes desaparecerán cada vez que se reinice el hosting
         if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
             $fileTmp = $_FILES['avatar']['tmp_name'];
