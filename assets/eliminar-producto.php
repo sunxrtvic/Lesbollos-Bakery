@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['producto_id'], $_POST
     }
 
     // Obtenemos la URL completa de la conexión con la base de datos desde la variable de entorno
-    $dbUrl = getenv('MYSQL_URL');  // En nuestro hosting, aunque configurada automáticamente, debemos metarla nosotros a mano para que funcione
+    $dbUrl = getenv('MYSQL_URL');  // Asegúrate de que esté configurada en Railway
 
     if (!$dbUrl) {
         die("Error: La variable de entorno MYSQL_URL no está configurada.");
@@ -38,14 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['producto_id'], $_POST
     $port = $dbParts['port'] ?? 3306;
     $user = $dbParts['user'] ?? '';
     $pass = $dbParts['pass'] ?? '';
-    // El path incluye / al inicio, la quitamos para obtener el nombre de la base
     $dbname = ltrim($dbParts['path'] ?? '', '/');
 
     // Creamos la conexión a la base de datos
-    $mysqli = new mysqli($host, $user, $pass, $dbname, $port);
+    $conn = new mysqli($host, $user, $pass, $dbname, $port);
 
-    if ($mysqli->connect_error) {
-        die("Error de conexión: " . $mysqli->connect_error);
+    if ($conn->connect_error) {
+        die("Error de conexión: " . $conn->connect_error);
     }
 
     // Eliminamos el producto de la tabla específica
