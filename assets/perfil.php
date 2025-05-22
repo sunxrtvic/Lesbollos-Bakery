@@ -20,31 +20,31 @@
     }
 
     /// Obtenemos la URL completa de la conexión con la base de datos desde la variable de entorno
-$dbUrl = getenv('MYSQL_URL');  // Asegúrate de que esté configurada en Railway
+    $dbUrl = getenv('MYSQL_URL');  // Asegúrate de que esté configurada en Railway
+    
+    if (!$dbUrl) {
+        die("Error: La variable de entorno MYSQL_URL no está configurada.");
+    }
 
-if (!$dbUrl) {
-    die("Error: La variable de entorno MYSQL_URL no está configurada.");
-}
+    // Parseamos la URL de la base de datos del hosting
+    $dbParts = parse_url($dbUrl);
 
-// Parseamos la URL de la base de datos del hosting
-$dbParts = parse_url($dbUrl);
+    if (!$dbParts) {
+        die("Error: No se pudo parsear MYSQL_URL.");
+    }
 
-if (!$dbParts) {
-    die("Error: No se pudo parsear MYSQL_URL.");
-}
+    $host = $dbParts['host'] ?? '';
+    $port = $dbParts['port'] ?? 3306;
+    $user = $dbParts['user'] ?? '';
+    $pass = $dbParts['pass'] ?? '';
+    $dbname = ltrim($dbParts['path'] ?? '', '/');
 
-$host = $dbParts['host'] ?? '';
-$port = $dbParts['port'] ?? 3306;
-$user = $dbParts['user'] ?? '';
-$pass = $dbParts['pass'] ?? '';
-$dbname = ltrim($dbParts['path'] ?? '', '/');
+    // Creamos la conexión a la base de datos
+    $conn = new mysqli($host, $user, $pass, $dbname, $port);
 
-// Creamos la conexión a la base de datos
-$conn = new mysqli($host, $user, $pass, $dbname, $port);
-
-if ($conn->connect_error) {
-    die("Error de conexión: " . $conn->connect_error);
-}
+    if ($conn->connect_error) {
+        die("Error de conexión: " . $conn->connect_error);
+    }
 
     $mensaje = "";
     $usuario = $_SESSION['usuario'];
@@ -62,6 +62,9 @@ if ($conn->connect_error) {
         $edad = $_POST['edad'];
         $avatarName = $usuario['avatar'] ?? "";
 
+
+//Con nuestro hosting no podemos tocar los permisos para mover las imagenes a otra carpeta, así que vamos manejarnos con la carpeta tmp
+//No es lo recomendado, ya que cada vez que se reinice el hosting las imagenes desaparecerán, pero nos hace el apaño
         if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
             $fileTmp = $_FILES['avatar']['tmp_name'];
             $fileName = basename($_FILES['avatar']['name']);
@@ -70,17 +73,13 @@ if ($conn->connect_error) {
 
             if (in_array($fileExt, $allowedExts)) {
                 $newFileName = 'avatar_' . $usuario['id'] . '.' . $fileExt;
-                $uploadDir = __DIR__ . '/imagenes/iconos/';
-
-                // Crear carpeta iconos si no existe todavía
-                if (!file_exists($uploadDir)) {
-                    mkdir($uploadDir, 0755, true);
-                }
+                $uploadDir = sys_get_temp_dir() . '/';
 
                 $uploadPath = $uploadDir . $newFileName;
 
                 if (move_uploaded_file($fileTmp, $uploadPath)) {
-                    $avatarName = 'iconos/' . $newFileName; // ruta relativa desde 'imagenes'
+                    // Guardamos solo el nombre del archivo, sin rutas
+                    $avatarName = $newFileName;
                 }
             }
         }
@@ -106,12 +105,16 @@ if ($conn->connect_error) {
     $conn->close();
     ?>
     <?php if (!empty($mensaje)): ?>
-        <div class="mensaje-exito"><?= $mensaje ?></div>
+        <div class="mensaje-exito"><?= htmlspecialchars($mensaje) ?></div>
     <?php endif; ?>
     <div class="contenedor-perfil">
         <div class="contenedor-avatar">
-            <img src="imagenes/<?= !empty($usuario['avatar']) ? htmlspecialchars($usuario['avatar']) : 'iconos/default-avatar.jpg' ?>"
-                alt="Avatar" class="avatar">
+            <?php
+            $avatar = !empty($usuario['avatar']) ? htmlspecialchars($usuario['avatar']) : null;
+            ?>
+            <img src="<?= $avatar
+                ? 'avatar-perfil.php?archivo=' . urlencode($avatar)
+                : 'imagenes/iconos/default-avatar.jpg' ?>" alt="Avatar" class="avatar">
         </div>
         <div class="contenedor-info">
             <h1>Bienvenid@, <?= htmlspecialchars($usuario['nombre']) ?></h1>
@@ -147,10 +150,10 @@ if ($conn->connect_error) {
 
     <?php include_once('footer.php'); ?>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     // Modo día y modo noche usando addClass y removeClass junto a JQuery
     $(function () {
-        // Aplicar el modo guardado al cargar la página
         if (localStorage.getItem("modo") === "noche") {
             var logo_dia = $("#logo");
             var logo_noche = $("#logo1");
@@ -181,7 +184,7 @@ if ($conn->connect_error) {
             logo_noche.show();
             icon.removeClass("fa-moon").addClass("fa-sun");
         }
-        //Cuando el usuario clicka el botón de cambio de modo...
+
         $("#viewmode").click(function () {
             var logo_dia = $("#logo");
             var logo_noche = $("#logo1");
