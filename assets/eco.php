@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once("encabezado.php");
 $usuario_autenticado = isset($_SESSION['usuario']);
 

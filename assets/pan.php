@@ -1,8 +1,15 @@
 <?php
+session_start();
 include_once("encabezado.php");
 $usuario_autenticado = isset($_SESSION['usuario']);
 
-$mysqli = new mysqli("localhost", "root", "", "lesbollos");
+$host = "hopper.proxy.rlwy.net"; // Host público de la base de datos de Railway
+$usuario = "root";               // Usuario
+$password = "cxruTUdpBaiiNUINnWHFDlzUsLLpGSBF";  // Contraseña de la base de datos
+$database = "railway";           // Nombre de la base de datos
+
+$mysqli = new mysqli($host, $usuario, $password, $database);
+
 if ($mysqli->connect_error) {
     die("Error de conexión: " . $mysqli->connect_error);
 }
