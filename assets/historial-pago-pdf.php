@@ -2,15 +2,17 @@
 session_start();
 require('fpdf/fpdf.php');
 
+// Validamos si el usuario está autenticado
 if (!isset($_SESSION['usuario']) || !isset($_SESSION['usuario']['id'])) {
-    echo "<p>Debes iniciar sesión para ver tu historial de pagos.</p>";
+    // Usamos redirección en lugar de echo para evitar romper la salida del PDF
+    header("Location: user.php");
     exit;
 }
 
 $usuario_autenticado = $_SESSION['usuario']['id'];
 
 // Obtenemos la URL completa de la conexión con la base de datos desde la variable de entorno
-$dbUrl = getenv('MYSQL_URL');  // En nuestro hosting, aunque configurada automáticamente, debemos metarla nosotros a mano para que funcione
+$dbUrl = getenv('MYSQL_URL');  // En nuestro hosting, aunque configurada automáticamente, debemos meterla nosotros a mano para que funcione
 
 if (!$dbUrl) {
     die("Error: La variable de entorno MYSQL_URL no está configurada.");
@@ -37,7 +39,7 @@ if ($mysqli->connect_error) {
     die("Error de conexión: " . $mysqli->connect_error);
 }
 
-//Función para la paginación del pdf
+// Función para la paginación del pdf
 class PDF extends FPDF
 {
     function Footer()
@@ -53,7 +55,7 @@ $pdf = new PDF();
 $pdf->AliasNbPages(); // Con esto podemos paginar el pdf
 $pdf->AddPage();
 $pdf->SetFont('Arial', 'B', 14);
-$pdf->Cell(0, 10, utf8_decode('Historial de Pagos'), 0, 1, 'C');
+$pdf->Cell(0, 10, 'Historial de Pagos', 0, 1, 'C'); // Quitamos utf8_decode() porque ya no se necesita
 $pdf->Ln(5);
 
 // Encabezados
@@ -99,17 +101,19 @@ while ($row = $result->fetch_assoc()) {
 
     $productos_str = implode(", ", $productos);
 
+    // Si la siguiente fila se sale de la página, agregamos una nueva
     if ($pdf->GetY() + $cellHeight > 250) {
         $pdf->AddPage();
     }
 
     $pdf->Cell(20, $cellHeight, "#$id", 1);
-    $pdf->Cell(70, $cellHeight, utf8_decode(substr($productos_str, 0, 45) . (strlen($productos_str) > 50 ? "...": "")), 1);
+    $pdf->Cell(70, $cellHeight, substr($productos_str, 0, 45) . (strlen($productos_str) > 50 ? "..." : ""), 1); // Quitamos utf8_decode()
     $pdf->Cell(20, $cellHeight, $cantidad_total, 1);
     $pdf->Cell(30, $cellHeight, number_format($total, 2) . chr(128), 1);
-    $pdf->Cell(50, $cellHeight, utf8_decode($fecha), 1);
+    $pdf->Cell(50, $cellHeight, $fecha, 1); // Quitamos utf8_decode()
     $pdf->Ln();
 }
 
+// Generamos el PDF
 $pdf->Output('D', 'historial_pagos.pdf');
-?>
+exit;
