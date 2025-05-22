@@ -26,7 +26,7 @@ $tipos= [
     'gif' => 'image/gif',
 ];
 
-header("Content-Type: " . $tipos_mime[$extension]);
+header("Content-Type: " . $tipos[$extension]);
 header("Content-Length: " . filesize($ruta));
 readfile($ruta);
 exit;
