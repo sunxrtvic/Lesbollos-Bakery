@@ -63,8 +63,8 @@
         $avatarName = $usuario['avatar'] ?? "";
 
 
-//Con nuestro hosting no podemos tocar los permisos para mover las imagenes a otra carpeta, así que vamos manejarnos con la carpeta tmp
-//No es lo recomendado, ya que cada vez que se reinice el hosting las imagenes desaparecerán, pero nos hace el apaño
+//Con nuestro hosting no podemos tocar los permisos para mover las imagenes a otra carpeta como iconos, así que vamos manejarnos con la carpeta tmp
+//No es lo recomendado en páginas profesionales, ya que las imágenes desaparecerán cada vez que se reinice el hosting
         if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
             $fileTmp = $_FILES['avatar']['tmp_name'];
             $fileName = basename($_FILES['avatar']['name']);
