@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php
+ob_start(); // Ponemos un buffer porque nos da conflicto el encabezado cuando vaciamos el carrito 
+session_start(); 
+?>
 <!DOCTYPE html>
 <html>
 
@@ -232,3 +235,6 @@
 </script>
 
 </html>
+<?php
+ ob_end_flush(); // Vaciamos el buffer 
+?>

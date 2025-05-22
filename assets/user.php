@@ -101,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
         if ($password === $admin['contraseña']) {
             $admin['tipo'] = 'admin';
             $_SESSION['usuario'] = $admin;
-            header("Location: principal.php");
+            header("Location: index.php");
             exit();
         }
     }
