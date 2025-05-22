@@ -1,4 +1,5 @@
 <?php
+ob_start(); // Ponemos un buffer porque nos da conflicto el encabezado cuando editamos datos del productos
 session_start();
 include_once("encabezado.php");
 
