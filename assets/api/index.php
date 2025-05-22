@@ -17,7 +17,30 @@ if (!isset($_SESSION['usuario'])) {
     die("Debes iniciar sesión para realizar el pago.");
 }
 
-$mysqli = new mysqli("localhost", "root", "", "lesbollos");
+// Obtenemos la URL completa de la conexión con la base de datos desde la variable de entorno
+$dbUrl = getenv('MYSQL_URL');  // En nuestro hosting, aunque configurada automáticamente, debemos metarla nosotros a mano para que funcione
+
+if (!$dbUrl) {
+    die("Error: La variable de entorno MYSQL_URL no está configurada.");
+}
+
+// Parseamos la URL de la base de datos del hosting
+$dbParts = parse_url($dbUrl);
+
+if (!$dbParts) {
+    die("Error: No se pudo parsear MYSQL_URL.");
+}
+
+$host = $dbParts['host'] ?? '';
+$port = $dbParts['port'] ?? 3306;
+$user = $dbParts['user'] ?? '';
+$pass = $dbParts['pass'] ?? '';
+// El path incluye / al inicio, la quitamos para obtener el nombre de la base
+$dbname = ltrim($dbParts['path'] ?? '', '/');
+
+// Creamos la conexión a la base de datos
+$mysqli = new mysqli($host, $user, $pass, $dbname, $port);
+
 if ($mysqli->connect_error) {
     die("Error de conexión: " . $mysqli->connect_error);
 }
@@ -38,11 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $productos_en_carrito = [];
 
     foreach ($carrito as $clave => $cantidad) {
-        if ($cantidad <= 0) continue;
+        if ($cantidad <= 0)
+            continue;
 
         if (preg_match('/^(eco|tartas|pan|bolleria)_(\d+)$/', $clave, $matches)) {
             $tabla = $matches[1];
-            $id = (int)$matches[2];
+            $id = (int) $matches[2];
 
             $stmt = $mysqli->prepare("SELECT nombre, precio FROM $tabla WHERE id = ?");
             $stmt->bind_param("i", $id);

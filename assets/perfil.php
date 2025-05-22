@@ -19,9 +19,32 @@
         exit();
     }
 
-    $conn = new mysqli("localhost", "root", "", "lesbollos");
-    if ($conn->connect_error) {
-        die("Error de conexión: " . $conn->connect_error);
+    // Obtenemos la URL completa de la conexión con la base de datos desde la variable de entorno
+    $dbUrl = getenv('MYSQL_URL');  // En nuestro hosting, aunque configurada automáticamente, debemos metarla nosotros a mano para que funcione
+    
+    if (!$dbUrl) {
+        die("Error: La variable de entorno MYSQL_URL no está configurada.");
+    }
+
+    // Parseamos la URL de la base de datos del hosting
+    $dbParts = parse_url($dbUrl);
+
+    if (!$dbParts) {
+        die("Error: No se pudo parsear MYSQL_URL.");
+    }
+
+    $host = $dbParts['host'] ?? '';
+    $port = $dbParts['port'] ?? 3306;
+    $user = $dbParts['user'] ?? '';
+    $pass = $dbParts['pass'] ?? '';
+    // El path incluye / al inicio, la quitamos para obtener el nombre de la base
+    $dbname = ltrim($dbParts['path'] ?? '', '/');
+
+    // Creamos la conexión a la base de datos
+    $mysqli = new mysqli($host, $user, $pass, $dbname, $port);
+
+    if ($mysqli->connect_error) {
+        die("Error de conexión: " . $mysqli->connect_error);
     }
 
     $mensaje = "";
