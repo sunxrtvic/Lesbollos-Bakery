@@ -3,12 +3,29 @@ session_start();
 include_once("encabezado.php");
 $usuario_autenticado = isset($_SESSION['usuario']);
 
-$host = "hopper.proxy.rlwy.net"; // Host público de la base de datos de Railway
-$usuario = "root";               // Usuario
-$password = "cxruTUdpBaiiNUINnWHFDlzUsLLpGSBF";  // Contraseña de la base de datos
-$database = "railway";           // Nombre de la base de datos
+// Obtener la URL completa de conexión desde la variable de entorno
+$dbUrl = getenv('MYSQL_URL');  // En Railway, esta variable debe estar configurada automáticamente
 
-$mysqli = new mysqli($host, $usuario, $password, $database);
+if (!$dbUrl) {
+    die("Error: La variable de entorno MYSQL_URL no está configurada.");
+}
+
+// Parsear la URL para obtener partes individuales
+$dbParts = parse_url($dbUrl);
+
+if (!$dbParts) {
+    die("Error: No se pudo parsear MYSQL_URL.");
+}
+
+$host = $dbParts['host'] ?? '';
+$port = $dbParts['port'] ?? 3306;
+$user = $dbParts['user'] ?? '';
+$pass = $dbParts['pass'] ?? '';
+// El path incluye / al inicio, la quitamos para obtener el nombre de la base
+$dbname = ltrim($dbParts['path'] ?? '', '/');
+
+// Crear la conexión
+$mysqli = new mysqli($host, $user, $pass, $dbname, $port);
 
 if ($mysqli->connect_error) {
     die("Error de conexión: " . $mysqli->connect_error);
