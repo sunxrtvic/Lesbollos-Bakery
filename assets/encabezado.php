@@ -1,6 +1,3 @@
-<?php
-?>
-
 <style>
     #logo {
         margin-left: 0;
