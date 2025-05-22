@@ -1,4 +1,5 @@
 <?php
+ob_start(); // Ponemos un buffer porque nos da conflicto el encabezado con el proceso de pago
 session_start();
 ?>
 
@@ -147,5 +148,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Error al procesar el pago: " . $e->getMessage();
     }
 }
-
+ob_end_flush(); // Vaciamos el buffer
 ?>
