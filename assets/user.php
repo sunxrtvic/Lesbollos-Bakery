@@ -1,4 +1,5 @@
 <?php
+ob_start(); // Ponemos un buffer porque nos da conflicto el encabezado con el registro/login del usuario
 session_start();
 include_once("encabezado.php");
 
@@ -412,3 +413,6 @@ $conn->close();
 </body>
 
 </html>
+<?php
+ob_end_flush(); // Vaciamos el buffer
+?>
