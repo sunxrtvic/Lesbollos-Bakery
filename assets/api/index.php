@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -9,7 +13,6 @@
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <?php
-session_start();
 require("vendor/autoload.php");
 
 // Verificamos que el usuario haya iniciado sesión
