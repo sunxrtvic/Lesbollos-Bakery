@@ -4,7 +4,6 @@ require('fpdf/fpdf.php');
 
 // Validamos si el usuario está autenticado
 if (!isset($_SESSION['usuario']) || !isset($_SESSION['usuario']['id'])) {
-    // Usamos redirección en lugar de echo para evitar romper la salida del PDF
     header("Location: user.php");
     exit;
 }
@@ -29,7 +28,7 @@ $host = $dbParts['host'] ?? '';
 $port = $dbParts['port'] ?? 3306;
 $user = $dbParts['user'] ?? '';
 $pass = $dbParts['pass'] ?? '';
-// El path incluye / al inicio, la quitamos para obtener el nombre de la base
+// El path incluye / al inicio, la quitamos para obtener el nombre de la base de datos
 $dbname = ltrim($dbParts['path'] ?? '', '/');
 
 // Creamos la conexión a la base de datos
@@ -51,20 +50,25 @@ class PDF extends FPDF
     }
 }
 
+// Función para evitar que las palabras con tildes se vean mal en el pdf
+function conv($texto) {
+    return iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $texto);
+}
+
 $pdf = new PDF(); 
 $pdf->AliasNbPages(); // Con esto podemos paginar el pdf
 $pdf->AddPage();
 $pdf->SetFont('Arial', 'B', 14);
-$pdf->Cell(0, 10, 'Historial de Pagos', 0, 1, 'C'); // Quitamos utf8_decode() porque ya no se necesita
+$pdf->Cell(0, 10, conv('Historial de Pagos'), 0, 1, 'C');
 $pdf->Ln(5);
 
 // Encabezados
 $pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(20, 10, 'Pedido', 1);
-$pdf->Cell(70, 10, 'Productos', 1);
-$pdf->Cell(20, 10, 'Cant.', 1);
-$pdf->Cell(30, 10, 'Total', 1);
-$pdf->Cell(50, 10, 'Fecha', 1);
+$pdf->Cell(20, 10, conv('Pedido'), 1);
+$pdf->Cell(70, 10, conv('Productos'), 1);
+$pdf->Cell(20, 10, conv('Cant.'), 1);
+$pdf->Cell(30, 10, conv('Total'), 1);
+$pdf->Cell(50, 10, conv('Fecha'), 1);
 $pdf->Ln();
 
 $cellHeight = 10;
@@ -94,7 +98,7 @@ while ($row = $result->fetch_assoc()) {
             $prod_id = $detalle['producto_id'];
             $nombre_query = $mysqli->query("SELECT nombre FROM $tabla WHERE id = $prod_id");
             if ($nombre_query && $nombre = $nombre_query->fetch_assoc()) {
-                $productos[] = $detalle['cantidad'] . ' x ' . $nombre['nombre'];
+                $productos[] = $detalle['cantidad'] . ' x ' . conv($nombre['nombre']);
             }
         }
     }
@@ -106,14 +110,15 @@ while ($row = $result->fetch_assoc()) {
         $pdf->AddPage();
     }
 
-    $pdf->Cell(20, $cellHeight, "#$id", 1);
-    $pdf->Cell(70, $cellHeight, substr($productos_str, 0, 45) . (strlen($productos_str) > 50 ? "..." : ""), 1); // Quitamos utf8_decode()
+    $pdf->Cell(20, $cellHeight, conv("#$id"), 1);
+    $pdf->Cell(70, $cellHeight, conv(substr($productos_str, 0, 45) . (strlen($productos_str) > 50 ? "..." : "")), 1);
     $pdf->Cell(20, $cellHeight, $cantidad_total, 1);
-    $pdf->Cell(30, $cellHeight, number_format($total, 2) . chr(128), 1);
-    $pdf->Cell(50, $cellHeight, $fecha, 1); // Quitamos utf8_decode()
+    $pdf->Cell(30, $cellHeight, conv(number_format($total, 2) . chr(128)), 1);
+    $pdf->Cell(50, $cellHeight, conv($fecha), 1);
     $pdf->Ln();
 }
 
 // Generamos el PDF
 $pdf->Output('D', 'historial_pagos.pdf');
 exit;
+?>
