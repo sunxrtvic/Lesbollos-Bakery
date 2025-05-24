@@ -52,8 +52,9 @@ class PDF extends FPDF
 
 // Función para evitar que las palabras con tildes se vean mal en el pdf
 function conv($texto) {
-    return iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $texto);
+    return @iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $texto) ?: '';
 }
+
 
 $pdf = new PDF(); 
 $pdf->AliasNbPages(); // Con esto podemos paginar el pdf
