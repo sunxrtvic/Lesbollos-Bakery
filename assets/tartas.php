@@ -92,6 +92,11 @@ if ($mensaje) {
     <link rel="stylesheet" href="./css/styletartas.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        button{
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
