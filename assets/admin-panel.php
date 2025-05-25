@@ -19,16 +19,18 @@ $usuario = $_SESSION['usuario'];
     <link rel="stylesheet" href="./css/styleperfil.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
+        h1 {
+            padding-bottom: 1.875rem;
+        }
+
         body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        h1 {
-            padding-bottom: 1.875rem;
+        main {
+            flex: 1;
         }
     </style>
 </head>
@@ -44,9 +46,8 @@ $usuario = $_SESSION['usuario'];
         <a href="cerrar-sesion.php" class="logout">Cerrar sesión</a>
     </div>
 
-
+    <?php include_once('footer.php'); ?>
 </body>
-<?php include_once('footer.php'); ?>
 <script>
     // Modo día y modo noche usando addClass y removeClass junto a JQuery
     $(function () {
