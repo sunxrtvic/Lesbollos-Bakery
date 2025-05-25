@@ -23,7 +23,7 @@ $usuario = $_SESSION['usuario'];
             padding-bottom: 1.875rem;
         }
 
-        body {
+        html,body {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -36,6 +36,7 @@ $usuario = $_SESSION['usuario'];
 </head>
 
 <body>
+    <main>
     <div class="contenedor-perfil">
         <h1>Panel de control del admin</h1>
         <a class="boton-rosa" href="añadir-tartas.php">Añadir nueva tarta</a>
@@ -45,6 +46,7 @@ $usuario = $_SESSION['usuario'];
 
         <a href="cerrar-sesion.php" class="logout">Cerrar sesión</a>
     </div>
+    </main>
 
     <?php include_once('footer.php'); ?>
 </body>
